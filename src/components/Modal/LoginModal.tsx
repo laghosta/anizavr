@@ -17,6 +17,9 @@ import {
 import { Input } from "../ui/input";
 import { useLoginModal } from "@/hooks/useModal";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "../ui/use-toast";
+import {customFetch} from "@/utils/fetch";
+import {useUser} from "@/hooks/useUser";
 
 const LoginSchema = z.object({
     email: z.string().email(),
@@ -27,24 +30,35 @@ const LoginModal = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const loginModal = useLoginModal();
     const isLogged = useAuth((state) => state.isLogged);
-    const login = useAuth((state) => state.login);
-
+    const {user, setUser}= useUser()
     const ref = useRef(null);
 
-    const onSubmitLogin = async (values: z.infer<typeof LoginSchema>) => {
-        console.log(JSON.stringify(values));
 
+    const getCurrentUser = async() => {
+        const res = await customFetch('api/users/getCurrentUser', "GET")
+        const user = await res.json()
+        return user
+    }
+    const onSubmitLogin = async (values: z.infer<typeof LoginSchema>) => {
         try {
             setLoading(true);
-            const res = await fetch(`${Link}/api/users/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-            }).then((res) => res.text());
-            localStorage.setItem("JWT", res);
-            login();
+            const res = await customFetch("api/users/login", "POST", JSON.stringify(values) )
+            if (res.status !== 200) {
+                return toast({
+                    duration: 2000,
+                    variant: "destructive",
+                    title: "Ти довбойоб",
+                    description: (await res.json()).ErrorMessage,
+                });
+
+            }
+            else {
+                localStorage.setItem("JWT", await res.text());
+                const user = await getCurrentUser()
+                if(user){
+                    setUser(user)
+                }
+            }
         } finally {
             setLoading(false);
         }
@@ -57,10 +71,10 @@ const LoginModal = () => {
         },
     });
     useEffect(() => {
-        if (isLogged) {
+        if (user) {
             loginModal.onClose();
         }
-    }, [isLogged]);
+    }, [user]);
     useEffect(() => {
         window.onclick = (event: any) => {
             if (

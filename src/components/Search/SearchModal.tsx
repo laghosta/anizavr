@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSearchModal } from "@/hooks/useModal";
-import { AnimePreview, KodikAnime, Result } from "@/utils/AnimeApi";
+import { AnimePreview, Result } from "@/utils/AnimeApi";
 import { Link } from "@/utils/Link";
 import Anime from "../Anime/Anime";
 import SearchResult from "./SearchResult";
@@ -26,7 +26,6 @@ const SearchModal = () => {
             .then((res) => res.json())
             .then((res) => setResults(res.results))
             .then(() => setLoading(false));
-        console.log(results);
     };
 
     useEffect(() => {

@@ -8,1146 +8,51 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import axios, { AxiosError } from 'axios';
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
-export class ApiClient {
-    private instance: AxiosInstance;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, instance?: AxiosInstance) {
+export class AddCommentDto implements IAddCommentDto {
+    animeId?: number;
+    text?: string | undefined;
 
-        this.instance = instance ? instance : axios.create();
-
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-
-    }
-
-    /**
-     * @return Success
-     */
-    getAnime(id: number, cancelToken?: CancelToken | undefined): Promise<Anime> {
-        let url_ = this.baseUrl + "/api/getAnime/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetAnime(_response);
-        });
-    }
-
-    protected processGetAnime(response: AxiosResponse): Promise<Anime> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
+    constructor(data?: IAddCommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = Anime.fromJS(resultData200);
-            return Promise.resolve<Anime>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<Anime>(null as any);
     }
 
-    /**
-     * @return Success
-     */
-    getFranchise(id: number, cancelToken?: CancelToken | undefined): Promise<Franchise> {
-        let url_ = this.baseUrl + "/api/getFranchise/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetFranchise(_response);
-        });
+    init(_data?: any) {
+        if (_data) {
+            this.animeId = _data["animeId"];
+            this.text = _data["text"];
+        }
     }
 
-    protected processGetFranchise(response: AxiosResponse): Promise<Franchise> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = Franchise.fromJS(resultData200);
-            return Promise.resolve<Franchise>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<Franchise>(null as any);
+    static fromJS(data: any): AddCommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AddCommentDto();
+        result.init(data);
+        return result;
     }
 
-    /**
-     * @return Success
-     */
-    getSimilarAnime(id: number, cancelToken?: CancelToken | undefined): Promise<ShikimoriAnime[]> {
-        let url_ = this.baseUrl + "/api/getSimilarAnime/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetSimilarAnime(_response);
-        });
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["animeId"] = this.animeId;
+        data["text"] = this.text;
+        return data;
     }
-
-    protected processGetSimilarAnime(response: AxiosResponse): Promise<ShikimoriAnime[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(ShikimoriAnime.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<ShikimoriAnime[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<ShikimoriAnime[]>(null as any);
-    }
-
-    /**
-     * @return Success
-     */
-    getRelatedAnime(id: number, cancelToken?: CancelToken | undefined): Promise<ShikimoriRelated[]> {
-        let url_ = this.baseUrl + "/api/getRelatedAnime/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetRelatedAnime(_response);
-        });
-    }
-
-    protected processGetRelatedAnime(response: AxiosResponse): Promise<ShikimoriRelated[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(ShikimoriRelated.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<ShikimoriRelated[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<ShikimoriRelated[]>(null as any);
-    }
-
-    /**
-     * @param query (optional) 
-     * @return Success
-     */
-    searchAnime(query: string | undefined, cancelToken?: CancelToken | undefined): Promise<KodikAnime> {
-        let url_ = this.baseUrl + "/api/searchAnime?";
-        if (query === null)
-            throw new Error("The parameter 'query' cannot be null.");
-        else if (query !== undefined)
-            url_ += "query=" + encodeURIComponent("" + query) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processSearchAnime(_response);
-        });
-    }
-
-    protected processSearchAnime(response: AxiosResponse): Promise<KodikAnime> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = KodikAnime.fromJS(resultData200);
-            return Promise.resolve<KodikAnime>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<KodikAnime>(null as any);
-    }
-
-    /**
-     * @param limit (optional) 
-     * @param page (optional) 
-     * @return Success
-     */
-    getPopularAnime(limit: number | undefined, page: number | undefined, cancelToken?: CancelToken | undefined): Promise<AnimePreview[]> {
-        let url_ = this.baseUrl + "/api/getPopularAnime?";
-        if (limit === null)
-            throw new Error("The parameter 'limit' cannot be null.");
-        else if (limit !== undefined)
-            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
-        if (page === null)
-            throw new Error("The parameter 'page' cannot be null.");
-        else if (page !== undefined)
-            url_ += "page=" + encodeURIComponent("" + page) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetPopularAnime(_response);
-        });
-    }
-
-    protected processGetPopularAnime(response: AxiosResponse): Promise<AnimePreview[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(AnimePreview.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<AnimePreview[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<AnimePreview[]>(null as any);
-    }
-
-    /**
-     * @param limit (optional) 
-     * @param page (optional) 
-     * @return Success
-     */
-    getTrendingAnime(limit: number | undefined, page: number | undefined, cancelToken?: CancelToken | undefined): Promise<AnimePreview[]> {
-        let url_ = this.baseUrl + "/api/getTrendingAnime?";
-        if (limit === null)
-            throw new Error("The parameter 'limit' cannot be null.");
-        else if (limit !== undefined)
-            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
-        if (page === null)
-            throw new Error("The parameter 'page' cannot be null.");
-        else if (page !== undefined)
-            url_ += "page=" + encodeURIComponent("" + page) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetTrendingAnime(_response);
-        });
-    }
-
-    protected processGetTrendingAnime(response: AxiosResponse): Promise<AnimePreview[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(AnimePreview.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<AnimePreview[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<AnimePreview[]>(null as any);
-    }
-
-    /**
-     * @param limit (optional) 
-     * @param page (optional) 
-     * @return Success
-     */
-    getJustReleasedAnime(limit: number | undefined, page: number | undefined, cancelToken?: CancelToken | undefined): Promise<AnimePreview[]> {
-        let url_ = this.baseUrl + "/api/getJustReleasedAnime?";
-        if (limit === null)
-            throw new Error("The parameter 'limit' cannot be null.");
-        else if (limit !== undefined)
-            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
-        if (page === null)
-            throw new Error("The parameter 'page' cannot be null.");
-        else if (page !== undefined)
-            url_ += "page=" + encodeURIComponent("" + page) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetJustReleasedAnime(_response);
-        });
-    }
-
-    protected processGetJustReleasedAnime(response: AxiosResponse): Promise<AnimePreview[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(AnimePreview.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<AnimePreview[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<AnimePreview[]>(null as any);
-    }
-
-    /**
-     * @return Success
-     */
-    getUsersLeaderbord( cancelToken?: CancelToken | undefined): Promise<UserDto[]> {
-        let url_ = this.baseUrl + "/api/users/getUsersLeaderbord";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetUsersLeaderbord(_response);
-        });
-    }
-
-    protected processGetUsersLeaderbord(response: AxiosResponse): Promise<UserDto[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(UserDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<UserDto[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<UserDto[]>(null as any);
-    }
-
-    /**
-     * @return Success
-     */
-    getUser(username: string, cancelToken?: CancelToken | undefined): Promise<UserDto> {
-        let url_ = this.baseUrl + "/api/users/getUser/{username}";
-        if (username === undefined || username === null)
-            throw new Error("The parameter 'username' must be defined.");
-        url_ = url_.replace("{username}", encodeURIComponent("" + username));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetUser(_response);
-        });
-    }
-
-    protected processGetUser(response: AxiosResponse): Promise<UserDto> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = UserDto.fromJS(resultData200);
-            return Promise.resolve<UserDto>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<UserDto>(null as any);
-    }
-
-    /**
-     * @param username (optional) 
-     * @param email (optional) 
-     * @param password (optional) 
-     * @param avatar (optional) 
-     * @return Success
-     */
-    register(username: string | undefined, email: string | undefined, password: string | undefined, avatar: FileParameter | undefined, cancelToken?: CancelToken | undefined): Promise<string> {
-        let url_ = this.baseUrl + "/api/users/register";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = new FormData();
-        if (username === null || username === undefined)
-            throw new Error("The parameter 'username' cannot be null.");
-        else
-            content_.append("Username", username.toString());
-        if (email === null || email === undefined)
-            throw new Error("The parameter 'email' cannot be null.");
-        else
-            content_.append("Email", email.toString());
-        if (password === null || password === undefined)
-            throw new Error("The parameter 'password' cannot be null.");
-        else
-            content_.append("Password", password.toString());
-        if (avatar === null || avatar === undefined)
-            throw new Error("The parameter 'avatar' cannot be null.");
-        else
-            content_.append("Avatar", avatar.data, avatar.fileName ? avatar.fileName : "Avatar");
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processRegister(_response);
-        });
-    }
-
-    protected processRegister(response: AxiosResponse): Promise<string> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return Promise.resolve<string>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<string>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    login(body: LoginDto | undefined, cancelToken?: CancelToken | undefined): Promise<string> {
-        let url_ = this.baseUrl + "/api/users/login";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processLogin(_response);
-        });
-    }
-
-    protected processLogin(response: AxiosResponse): Promise<string> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return Promise.resolve<string>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<string>(null as any);
-    }
-
-    /**
-     * @param avatar (optional) 
-     * @return Success
-     */
-    changeAvatar(avatar: FileParameter | undefined, cancelToken?: CancelToken | undefined): Promise<string> {
-        let url_ = this.baseUrl + "/api/users/changeAvatar";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = new FormData();
-        if (avatar === null || avatar === undefined)
-            throw new Error("The parameter 'avatar' cannot be null.");
-        else
-            content_.append("avatar", avatar.data, avatar.fileName ? avatar.fileName : "avatar");
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processChangeAvatar(_response);
-        });
-    }
-
-    protected processChangeAvatar(response: AxiosResponse): Promise<string> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return Promise.resolve<string>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<string>(null as any);
-    }
-
-    /**
-     * @return Success
-     */
-    getCurrentUser( cancelToken?: CancelToken | undefined): Promise<UserDto> {
-        let url_ = this.baseUrl + "/api/users/getCurrentUser";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetCurrentUser(_response);
-        });
-    }
-
-    protected processGetCurrentUser(response: AxiosResponse): Promise<UserDto> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = UserDto.fromJS(resultData200);
-            return Promise.resolve<UserDto>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<UserDto>(null as any);
-    }
-
-    /**
-     * @param animeId (optional) 
-     * @param userScore (optional) 
-     * @return Success
-     */
-    addToWatched(animeId: number | undefined, userScore: number | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/api/users/addToWatched?";
-        if (animeId === null)
-            throw new Error("The parameter 'animeId' cannot be null.");
-        else if (animeId !== undefined)
-            url_ += "animeId=" + encodeURIComponent("" + animeId) + "&";
-        if (userScore === null)
-            throw new Error("The parameter 'userScore' cannot be null.");
-        else if (userScore !== undefined)
-            url_ += "userScore=" + encodeURIComponent("" + userScore) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "POST",
-            url: url_,
-            headers: {
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processAddToWatched(_response);
-        });
-    }
-
-    protected processAddToWatched(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param animeId (optional) 
-     * @return Success
-     */
-    addToWatching(animeId: number | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/api/users/addToWatching?";
-        if (animeId === null)
-            throw new Error("The parameter 'animeId' cannot be null.");
-        else if (animeId !== undefined)
-            url_ += "animeId=" + encodeURIComponent("" + animeId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "POST",
-            url: url_,
-            headers: {
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processAddToWatching(_response);
-        });
-    }
-
-    protected processAddToWatching(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param animeId (optional) 
-     * @param episodeFinished (optional) 
-     * @return Success
-     */
-    finishEpisode(animeId: number | undefined, episodeFinished: number | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/api/users/finishEpisode?";
-        if (animeId === null)
-            throw new Error("The parameter 'animeId' cannot be null.");
-        else if (animeId !== undefined)
-            url_ += "animeId=" + encodeURIComponent("" + animeId) + "&";
-        if (episodeFinished === null)
-            throw new Error("The parameter 'episodeFinished' cannot be null.");
-        else if (episodeFinished !== undefined)
-            url_ += "episodeFinished=" + encodeURIComponent("" + episodeFinished) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "PUT",
-            url: url_,
-            headers: {
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processFinishEpisode(_response);
-        });
-    }
-
-    protected processFinishEpisode(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param animeId (optional) 
-     * @param secondsWatched (optional) 
-     * @return Success
-     */
-    updateTimestamps(animeId: number | undefined, secondsWatched: number | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/api/users/updateTimestamps?";
-        if (animeId === null)
-            throw new Error("The parameter 'animeId' cannot be null.");
-        else if (animeId !== undefined)
-            url_ += "animeId=" + encodeURIComponent("" + animeId) + "&";
-        if (secondsWatched === null)
-            throw new Error("The parameter 'secondsWatched' cannot be null.");
-        else if (secondsWatched !== undefined)
-            url_ += "secondsWatched=" + encodeURIComponent("" + secondsWatched) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "PUT",
-            url: url_,
-            headers: {
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processUpdateTimestamps(_response);
-        });
-    }
-
-    protected processUpdateTimestamps(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param animeId (optional) 
-     * @return Success
-     */
-    removeFromWatching(animeId: number | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/api/users/removeFromWatching?";
-        if (animeId === null)
-            throw new Error("The parameter 'animeId' cannot be null.");
-        else if (animeId !== undefined)
-            url_ += "animeId=" + encodeURIComponent("" + animeId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "DELETE",
-            url: url_,
-            headers: {
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processRemoveFromWatching(_response);
-        });
-    }
-
-    protected processRemoveFromWatching(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
+}
+
+export interface IAddCommentDto {
+    animeId?: number;
+    text?: string | undefined;
 }
 
 export class Anime implements IAnime {
     shikimoriDetails?: AnimeID;
-    kodikDetails?: KodikAnime;
+    kodikDetails?: KodikResults;
     timestamps?: Show;
 
     constructor(data?: IAnime) {
@@ -1162,7 +67,7 @@ export class Anime implements IAnime {
     init(_data?: any) {
         if (_data) {
             this.shikimoriDetails = _data["shikimoriDetails"] ? AnimeID.fromJS(_data["shikimoriDetails"]) : <any>undefined;
-            this.kodikDetails = _data["kodikDetails"] ? KodikAnime.fromJS(_data["kodikDetails"]) : <any>undefined;
+            this.kodikDetails = _data["kodikDetails"] ? KodikResults.fromJS(_data["kodikDetails"]) : <any>undefined;
             this.timestamps = _data["timestamps"] ? Show.fromJS(_data["timestamps"]) : <any>undefined;
         }
     }
@@ -1185,7 +90,7 @@ export class Anime implements IAnime {
 
 export interface IAnime {
     shikimoriDetails?: AnimeID;
-    kodikDetails?: KodikAnime;
+    kodikDetails?: KodikResults;
     timestamps?: Show;
 }
 
@@ -1521,6 +426,102 @@ export interface IAnimePreview {
     episodesAired?: number;
 }
 
+export class CommentAuthorDto implements ICommentAuthorDto {
+    id?: string;
+    username?: string | undefined;
+    email?: string | undefined;
+    avatarUrl?: string | undefined;
+
+    constructor(data?: ICommentAuthorDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.username = _data["username"];
+            this.email = _data["email"];
+            this.avatarUrl = _data["avatarUrl"];
+        }
+    }
+
+    static fromJS(data: any): CommentAuthorDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CommentAuthorDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["email"] = this.email;
+        data["avatarUrl"] = this.avatarUrl;
+        return data;
+    }
+}
+
+export interface ICommentAuthorDto {
+    id?: string;
+    username?: string | undefined;
+    email?: string | undefined;
+    avatarUrl?: string | undefined;
+}
+
+export class CommentDto implements ICommentDto {
+    id?: string;
+    author?: CommentAuthorDto;
+    animeId?: number;
+    text?: string | undefined;
+
+    constructor(data?: ICommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.author = _data["author"] ? CommentAuthorDto.fromJS(_data["author"]) : <any>undefined;
+            this.animeId = _data["animeId"];
+            this.text = _data["text"];
+        }
+    }
+
+    static fromJS(data: any): CommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["author"] = this.author ? this.author.toJSON() : <any>undefined;
+        data["animeId"] = this.animeId;
+        data["text"] = this.text;
+        return data;
+    }
+}
+
+export interface ICommentDto {
+    id?: string;
+    author?: CommentAuthorDto;
+    animeId?: number;
+    text?: string | undefined;
+}
+
 export class Episode implements IEpisode {
     name?: string | undefined;
     timestamps?: Timestamp[] | undefined;
@@ -1567,66 +568,6 @@ export class Episode implements IEpisode {
 export interface IEpisode {
     name?: string | undefined;
     timestamps?: Timestamp[] | undefined;
-}
-
-export class Franchise implements IFranchise {
-    links?: Link[] | undefined;
-    nodes?: Node[] | undefined;
-    currentId?: number;
-
-    constructor(data?: IFranchise) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["links"])) {
-                this.links = [] as any;
-                for (let item of _data["links"])
-                    this.links!.push(Link.fromJS(item));
-            }
-            if (Array.isArray(_data["nodes"])) {
-                this.nodes = [] as any;
-                for (let item of _data["nodes"])
-                    this.nodes!.push(Node.fromJS(item));
-            }
-            this.currentId = _data["currentId"];
-        }
-    }
-
-    static fromJS(data: any): Franchise {
-        data = typeof data === 'object' ? data : {};
-        let result = new Franchise();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.links)) {
-            data["links"] = [];
-            for (let item of this.links)
-                data["links"].push(item.toJSON());
-        }
-        if (Array.isArray(this.nodes)) {
-            data["nodes"] = [];
-            for (let item of this.nodes)
-                data["nodes"].push(item.toJSON());
-        }
-        data["currentId"] = this.currentId;
-        return data;
-    }
-}
-
-export interface IFranchise {
-    links?: Link[] | undefined;
-    nodes?: Node[] | undefined;
-    currentId?: number;
 }
 
 export class Genre implements IGenre {
@@ -1725,12 +666,12 @@ export interface IImage {
     x48?: string | undefined;
 }
 
-export class KodikAnime implements IKodikAnime {
+export class KodikResults implements IKodikResults {
     time?: string | undefined;
     total?: number;
     results?: Result[] | undefined;
 
-    constructor(data?: IKodikAnime) {
+    constructor(data?: IKodikResults) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1751,9 +692,9 @@ export class KodikAnime implements IKodikAnime {
         }
     }
 
-    static fromJS(data: any): KodikAnime {
+    static fromJS(data: any): KodikResults {
         data = typeof data === 'object' ? data : {};
-        let result = new KodikAnime();
+        let result = new KodikResults();
         result.init(data);
         return result;
     }
@@ -1771,74 +712,14 @@ export class KodikAnime implements IKodikAnime {
     }
 }
 
-export interface IKodikAnime {
+export interface IKodikResults {
     time?: string | undefined;
     total?: number;
     results?: Result[] | undefined;
 }
 
-export class Link implements ILink {
-    id?: number;
-    sourceId?: number;
-    targetId?: number;
-    source?: number | undefined;
-    target?: number | undefined;
-    weight?: number | undefined;
-    relation?: string | undefined;
-
-    constructor(data?: ILink) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.sourceId = _data["sourceId"];
-            this.targetId = _data["targetId"];
-            this.source = _data["source"];
-            this.target = _data["target"];
-            this.weight = _data["weight"];
-            this.relation = _data["relation"];
-        }
-    }
-
-    static fromJS(data: any): Link {
-        data = typeof data === 'object' ? data : {};
-        let result = new Link();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["sourceId"] = this.sourceId;
-        data["targetId"] = this.targetId;
-        data["source"] = this.source;
-        data["target"] = this.target;
-        data["weight"] = this.weight;
-        data["relation"] = this.relation;
-        return data;
-    }
-}
-
-export interface ILink {
-    id?: number;
-    sourceId?: number;
-    targetId?: number;
-    source?: number | undefined;
-    target?: number | undefined;
-    weight?: number | undefined;
-    relation?: string | undefined;
-}
-
 export class LoginDto implements ILoginDto {
-    username?: string | undefined;
+    email?: string | undefined;
     password?: string | undefined;
 
     constructor(data?: ILoginDto) {
@@ -1852,7 +733,7 @@ export class LoginDto implements ILoginDto {
 
     init(_data?: any) {
         if (_data) {
-            this.username = _data["username"];
+            this.email = _data["email"];
             this.password = _data["password"];
         }
     }
@@ -1866,23 +747,24 @@ export class LoginDto implements ILoginDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["username"] = this.username;
+        data["email"] = this.email;
         data["password"] = this.password;
         return data;
     }
 }
 
 export interface ILoginDto {
-    username?: string | undefined;
+    email?: string | undefined;
     password?: string | undefined;
 }
 
 export class MaterialData implements IMaterialData {
     title?: string | undefined;
-    year?: number;
+    year?: number | undefined;
     tagline?: string | undefined;
     description?: string | undefined;
     poster_Url?: string | undefined;
+    shikimori_rating?: number | undefined;
 
     constructor(data?: IMaterialData) {
         if (data) {
@@ -1900,6 +782,7 @@ export class MaterialData implements IMaterialData {
             this.tagline = _data["tagline"];
             this.description = _data["description"];
             this.poster_Url = _data["poster_Url"];
+            this.shikimori_rating = _data["shikimori_rating"];
         }
     }
 
@@ -1917,80 +800,18 @@ export class MaterialData implements IMaterialData {
         data["tagline"] = this.tagline;
         data["description"] = this.description;
         data["poster_Url"] = this.poster_Url;
+        data["shikimori_rating"] = this.shikimori_rating;
         return data;
     }
 }
 
 export interface IMaterialData {
     title?: string | undefined;
-    year?: number;
+    year?: number | undefined;
     tagline?: string | undefined;
     description?: string | undefined;
     poster_Url?: string | undefined;
-}
-
-export class Node implements INode {
-    id?: number;
-    date?: number | undefined;
-    name?: string | undefined;
-    imageUrl?: string | undefined;
-    url?: string | undefined;
-    year?: any | undefined;
-    kind?: string | undefined;
-    weight?: number;
-
-    constructor(data?: INode) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.date = _data["date"];
-            this.name = _data["name"];
-            this.imageUrl = _data["imageUrl"];
-            this.url = _data["url"];
-            this.year = _data["year"];
-            this.kind = _data["kind"];
-            this.weight = _data["weight"];
-        }
-    }
-
-    static fromJS(data: any): Node {
-        data = typeof data === 'object' ? data : {};
-        let result = new Node();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["date"] = this.date;
-        data["name"] = this.name;
-        data["imageUrl"] = this.imageUrl;
-        data["url"] = this.url;
-        data["year"] = this.year;
-        data["kind"] = this.kind;
-        data["weight"] = this.weight;
-        return data;
-    }
-}
-
-export interface INode {
-    id?: number;
-    date?: number | undefined;
-    name?: string | undefined;
-    imageUrl?: string | undefined;
-    url?: string | undefined;
-    year?: any | undefined;
-    kind?: string | undefined;
-    weight?: number;
+    shikimori_rating?: number | undefined;
 }
 
 export class PublicUserRate implements IPublicUserRate {
@@ -2097,6 +918,50 @@ export class Rate implements IRate {
 }
 
 export interface IRate {
+}
+
+export class RegisterDto implements IRegisterDto {
+    username?: string | undefined;
+    email?: string | undefined;
+    password?: string | undefined;
+
+    constructor(data?: IRegisterDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.username = _data["username"];
+            this.email = _data["email"];
+            this.password = _data["password"];
+        }
+    }
+
+    static fromJS(data: any): RegisterDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RegisterDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["username"] = this.username;
+        data["email"] = this.email;
+        data["password"] = this.password;
+        return data;
+    }
+}
+
+export interface IRegisterDto {
+    username?: string | undefined;
+    email?: string | undefined;
+    password?: string | undefined;
 }
 
 export class Result implements IResult {
@@ -2223,90 +1088,10 @@ export interface IScreenshots {
     preview?: string | undefined;
 }
 
-export class ShikimoriAnime implements IShikimoriAnime {
-    id?: number;
-    name?: string | undefined;
-    russian?: string | undefined;
-    image?: Image;
-    url?: string | undefined;
-    kind?: string | undefined;
-    score?: string | undefined;
-    status?: string | undefined;
-    airedOn?: Date | undefined;
-    releasedOn?: Date | undefined;
-    episodes?: number;
-    episodesAired?: number;
-
-    constructor(data?: IShikimoriAnime) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.russian = _data["russian"];
-            this.image = _data["image"] ? Image.fromJS(_data["image"]) : <any>undefined;
-            this.url = _data["url"];
-            this.kind = _data["kind"];
-            this.score = _data["score"];
-            this.status = _data["status"];
-            this.airedOn = _data["airedOn"] ? new Date(_data["airedOn"].toString()) : <any>undefined;
-            this.releasedOn = _data["releasedOn"] ? new Date(_data["releasedOn"].toString()) : <any>undefined;
-            this.episodes = _data["episodes"];
-            this.episodesAired = _data["episodesAired"];
-        }
-    }
-
-    static fromJS(data: any): ShikimoriAnime {
-        data = typeof data === 'object' ? data : {};
-        let result = new ShikimoriAnime();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["russian"] = this.russian;
-        data["image"] = this.image ? this.image.toJSON() : <any>undefined;
-        data["url"] = this.url;
-        data["kind"] = this.kind;
-        data["score"] = this.score;
-        data["status"] = this.status;
-        data["airedOn"] = this.airedOn ? this.airedOn.toISOString() : <any>undefined;
-        data["releasedOn"] = this.releasedOn ? this.releasedOn.toISOString() : <any>undefined;
-        data["episodes"] = this.episodes;
-        data["episodesAired"] = this.episodesAired;
-        return data;
-    }
-}
-
-export interface IShikimoriAnime {
-    id?: number;
-    name?: string | undefined;
-    russian?: string | undefined;
-    image?: Image;
-    url?: string | undefined;
-    kind?: string | undefined;
-    score?: string | undefined;
-    status?: string | undefined;
-    airedOn?: Date | undefined;
-    releasedOn?: Date | undefined;
-    episodes?: number;
-    episodesAired?: number;
-}
-
 export class ShikimoriRelated implements IShikimoriRelated {
     relation?: string | undefined;
     relationRussian?: string | undefined;
-    anime?: ShikimoriAnime;
+    anime?: AnimePreview;
 
     constructor(data?: IShikimoriRelated) {
         if (data) {
@@ -2321,7 +1106,7 @@ export class ShikimoriRelated implements IShikimoriRelated {
         if (_data) {
             this.relation = _data["relation"];
             this.relationRussian = _data["relationRussian"];
-            this.anime = _data["anime"] ? ShikimoriAnime.fromJS(_data["anime"]) : <any>undefined;
+            this.anime = _data["anime"] ? AnimePreview.fromJS(_data["anime"]) : <any>undefined;
         }
     }
 
@@ -2344,7 +1129,7 @@ export class ShikimoriRelated implements IShikimoriRelated {
 export interface IShikimoriRelated {
     relation?: string | undefined;
     relationRussian?: string | undefined;
-    anime?: ShikimoriAnime;
+    anime?: AnimePreview;
 }
 
 export class Show implements IShow {
@@ -2441,6 +1226,66 @@ export interface IStudio {
     filteredName?: string | undefined;
     real?: boolean | undefined;
     image?: string | undefined;
+}
+
+export class TierlistAnime implements ITierlistAnime {
+    id?: string;
+    position?: number;
+    animeId?: number;
+    episodesTotal?: number;
+    title?: string | undefined;
+    posterUrl?: string | undefined;
+    rating?: string | undefined;
+
+    constructor(data?: ITierlistAnime) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.position = _data["position"];
+            this.animeId = _data["animeId"];
+            this.episodesTotal = _data["episodesTotal"];
+            this.title = _data["title"];
+            this.posterUrl = _data["posterUrl"];
+            this.rating = _data["rating"];
+        }
+    }
+
+    static fromJS(data: any): TierlistAnime {
+        data = typeof data === 'object' ? data : {};
+        let result = new TierlistAnime();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["position"] = this.position;
+        data["animeId"] = this.animeId;
+        data["episodesTotal"] = this.episodesTotal;
+        data["title"] = this.title;
+        data["posterUrl"] = this.posterUrl;
+        data["rating"] = this.rating;
+        return data;
+    }
+}
+
+export interface ITierlistAnime {
+    id?: string;
+    position?: number;
+    animeId?: number;
+    episodesTotal?: number;
+    title?: string | undefined;
+    posterUrl?: string | undefined;
+    rating?: string | undefined;
 }
 
 export class Timestamp implements ITimestamp {
@@ -2566,9 +1411,11 @@ export interface IType {
 export class UserDto implements IUserDto {
     id?: string;
     username?: string | undefined;
-    email?: string | undefined;
     avatarUrl?: string | undefined;
-    lastWatchedAnimes?: UserWatchingAnime[] | undefined;
+    currentlyWatchingAnime?: UserWatchingAnime[] | undefined;
+    watchedAnime?: UserWatchedAnime[] | undefined;
+    wishlist?: WishlistAnime[] | undefined;
+    tierlist?: TierlistAnime[] | undefined;
 
     constructor(data?: IUserDto) {
         if (data) {
@@ -2583,12 +1430,26 @@ export class UserDto implements IUserDto {
         if (_data) {
             this.id = _data["id"];
             this.username = _data["username"];
-            this.email = _data["email"];
             this.avatarUrl = _data["avatarUrl"];
-            if (Array.isArray(_data["lastWatchedAnimes"])) {
-                this.lastWatchedAnimes = [] as any;
-                for (let item of _data["lastWatchedAnimes"])
-                    this.lastWatchedAnimes!.push(UserWatchingAnime.fromJS(item));
+            if (Array.isArray(_data["currentlyWatchingAnime"])) {
+                this.currentlyWatchingAnime = [] as any;
+                for (let item of _data["currentlyWatchingAnime"])
+                    this.currentlyWatchingAnime!.push(UserWatchingAnime.fromJS(item));
+            }
+            if (Array.isArray(_data["watchedAnime"])) {
+                this.watchedAnime = [] as any;
+                for (let item of _data["watchedAnime"])
+                    this.watchedAnime!.push(UserWatchedAnime.fromJS(item));
+            }
+            if (Array.isArray(_data["wishlist"])) {
+                this.wishlist = [] as any;
+                for (let item of _data["wishlist"])
+                    this.wishlist!.push(WishlistAnime.fromJS(item));
+            }
+            if (Array.isArray(_data["tierlist"])) {
+                this.tierlist = [] as any;
+                for (let item of _data["tierlist"])
+                    this.tierlist!.push(TierlistAnime.fromJS(item));
             }
         }
     }
@@ -2604,12 +1465,26 @@ export class UserDto implements IUserDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["username"] = this.username;
-        data["email"] = this.email;
         data["avatarUrl"] = this.avatarUrl;
-        if (Array.isArray(this.lastWatchedAnimes)) {
-            data["lastWatchedAnimes"] = [];
-            for (let item of this.lastWatchedAnimes)
-                data["lastWatchedAnimes"].push(item.toJSON());
+        if (Array.isArray(this.currentlyWatchingAnime)) {
+            data["currentlyWatchingAnime"] = [];
+            for (let item of this.currentlyWatchingAnime)
+                data["currentlyWatchingAnime"].push(item.toJSON());
+        }
+        if (Array.isArray(this.watchedAnime)) {
+            data["watchedAnime"] = [];
+            for (let item of this.watchedAnime)
+                data["watchedAnime"].push(item.toJSON());
+        }
+        if (Array.isArray(this.wishlist)) {
+            data["wishlist"] = [];
+            for (let item of this.wishlist)
+                data["wishlist"].push(item.toJSON());
+        }
+        if (Array.isArray(this.tierlist)) {
+            data["tierlist"] = [];
+            for (let item of this.tierlist)
+                data["tierlist"].push(item.toJSON());
         }
         return data;
     }
@@ -2618,21 +1493,88 @@ export class UserDto implements IUserDto {
 export interface IUserDto {
     id?: string;
     username?: string | undefined;
-    email?: string | undefined;
     avatarUrl?: string | undefined;
-    lastWatchedAnimes?: UserWatchingAnime[] | undefined;
+    currentlyWatchingAnime?: UserWatchingAnime[] | undefined;
+    watchedAnime?: UserWatchedAnime[] | undefined;
+    wishlist?: WishlistAnime[] | undefined;
+    tierlist?: TierlistAnime[] | undefined;
+}
+
+export class UserWatchedAnime implements IUserWatchedAnime {
+    id?: string;
+    animeId?: number;
+    currentEpisode?: number;
+    episodesTotal?: number;
+    title?: string | undefined;
+    posterUrl?: string | undefined;
+    rating?: string | undefined;
+    userScore?: number | undefined;
+
+    constructor(data?: IUserWatchedAnime) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.animeId = _data["animeId"];
+            this.currentEpisode = _data["currentEpisode"];
+            this.episodesTotal = _data["episodesTotal"];
+            this.title = _data["title"];
+            this.posterUrl = _data["posterUrl"];
+            this.rating = _data["rating"];
+            this.userScore = _data["userScore"];
+        }
+    }
+
+    static fromJS(data: any): UserWatchedAnime {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserWatchedAnime();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["animeId"] = this.animeId;
+        data["currentEpisode"] = this.currentEpisode;
+        data["episodesTotal"] = this.episodesTotal;
+        data["title"] = this.title;
+        data["posterUrl"] = this.posterUrl;
+        data["rating"] = this.rating;
+        data["userScore"] = this.userScore;
+        return data;
+    }
+}
+
+export interface IUserWatchedAnime {
+    id?: string;
+    animeId?: number;
+    currentEpisode?: number;
+    episodesTotal?: number;
+    title?: string | undefined;
+    posterUrl?: string | undefined;
+    rating?: string | undefined;
+    userScore?: number | undefined;
 }
 
 export class UserWatchingAnime implements IUserWatchingAnime {
     id?: string;
     animeId?: number;
-    episodesWatched?: number;
-    nextEpisode?: number;
+    currentEpisode?: number;
     episodesTotal?: number;
     title?: string | undefined;
     posterUrl?: string | undefined;
     rating?: string | undefined;
     secondsWatched?: number;
+    secondsTotal?: number;
+    kind?: string | undefined;
 
     constructor(data?: IUserWatchingAnime) {
         if (data) {
@@ -2647,13 +1589,14 @@ export class UserWatchingAnime implements IUserWatchingAnime {
         if (_data) {
             this.id = _data["id"];
             this.animeId = _data["animeId"];
-            this.episodesWatched = _data["episodesWatched"];
-            this.nextEpisode = _data["nextEpisode"];
+            this.currentEpisode = _data["currentEpisode"];
             this.episodesTotal = _data["episodesTotal"];
             this.title = _data["title"];
             this.posterUrl = _data["posterUrl"];
             this.rating = _data["rating"];
             this.secondsWatched = _data["secondsWatched"];
+            this.secondsTotal = _data["secondsTotal"];
+            this.kind = _data["kind"];
         }
     }
 
@@ -2668,13 +1611,14 @@ export class UserWatchingAnime implements IUserWatchingAnime {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["animeId"] = this.animeId;
-        data["episodesWatched"] = this.episodesWatched;
-        data["nextEpisode"] = this.nextEpisode;
+        data["currentEpisode"] = this.currentEpisode;
         data["episodesTotal"] = this.episodesTotal;
         data["title"] = this.title;
         data["posterUrl"] = this.posterUrl;
         data["rating"] = this.rating;
         data["secondsWatched"] = this.secondsWatched;
+        data["secondsTotal"] = this.secondsTotal;
+        data["kind"] = this.kind;
         return data;
     }
 }
@@ -2682,13 +1626,14 @@ export class UserWatchingAnime implements IUserWatchingAnime {
 export interface IUserWatchingAnime {
     id?: string;
     animeId?: number;
-    episodesWatched?: number;
-    nextEpisode?: number;
+    currentEpisode?: number;
     episodesTotal?: number;
     title?: string | undefined;
     posterUrl?: string | undefined;
     rating?: string | undefined;
     secondsWatched?: number;
+    secondsTotal?: number;
+    kind?: string | undefined;
 }
 
 export class Video implements IVideo {
@@ -2751,42 +1696,67 @@ export interface IVideo {
     hosting?: string | undefined;
 }
 
+export class WishlistAnime implements IWishlistAnime {
+    id?: string;
+    animeId?: number;
+    episodesTotal?: number;
+    title?: string | undefined;
+    posterUrl?: string | undefined;
+    rating?: string | undefined;
+    kind?: string | undefined;
+
+    constructor(data?: IWishlistAnime) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.animeId = _data["animeId"];
+            this.episodesTotal = _data["episodesTotal"];
+            this.title = _data["title"];
+            this.posterUrl = _data["posterUrl"];
+            this.rating = _data["rating"];
+            this.kind = _data["kind"];
+        }
+    }
+
+    static fromJS(data: any): WishlistAnime {
+        data = typeof data === 'object' ? data : {};
+        let result = new WishlistAnime();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["animeId"] = this.animeId;
+        data["episodesTotal"] = this.episodesTotal;
+        data["title"] = this.title;
+        data["posterUrl"] = this.posterUrl;
+        data["rating"] = this.rating;
+        data["kind"] = this.kind;
+        return data;
+    }
+}
+
+export interface IWishlistAnime {
+    id?: string;
+    animeId?: number;
+    episodesTotal?: number;
+    title?: string | undefined;
+    posterUrl?: string | undefined;
+    rating?: string | undefined;
+    kind?: string | undefined;
+}
+
 export interface FileParameter {
     data: any;
     fileName: string;
-}
-
-export class ApiException extends Error {
-    override message: string;
-    status: number;
-    response: string;
-    headers: { [key: string]: any; };
-    result: any;
-
-    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
-        super();
-
-        this.message = message;
-        this.status = status;
-        this.response = response;
-        this.headers = headers;
-        this.result = result;
-    }
-
-    protected isApiException = true;
-
-    static isApiException(obj: any): obj is ApiException {
-        return obj.isApiException === true;
-    }
-}
-
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
-    if (result !== null && result !== undefined)
-        throw result;
-    else
-        throw new ApiException(message, status, response, headers, null);
-}
-
-function isAxiosError(obj: any | undefined): obj is AxiosError {
-    return obj && obj.isAxiosError === true;
 }

@@ -18,6 +18,10 @@ import { Link } from "@/utils/Link";
 import { useRegisterModal } from "@/hooks/useModal";
 import { cookies } from "next/dist/client/components/headers";
 import { idText } from "typescript";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "../ui/use-toast";
+import {customFetch} from "@/utils/fetch";
+import {useUser} from "@/hooks/useUser";
 
 const RegisterSchema = z.object({
     username: z.string().min(6),
@@ -28,19 +32,35 @@ const RegisterSchema = z.object({
 const RegisterModal = () => {
     const [loading, setLoading] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const login = useAuth((state) => state.login);
+    const isLogged = useAuth((state) => state.isLogged);
+    const {user, setUser} = useUser()
     const registerModal = useRegisterModal();
     const ref = useRef(null);
+
+    const getCurrentUser = async() => {
+        const res = await customFetch('api/users/getCurrentUser', "GET")
+        const user = await res.json()
+        return user
+    }
     const onSubmitRegister = async (values: z.infer<typeof RegisterSchema>) => {
         try {
             setLoading(true);
-            const res = await fetch(`${Link}/api/users/register`, {
-                method: "POST",
-                body: JSON.stringify(values),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }).then((res) => res.text());
-            localStorage.setItem("JWT", res);
+            const res = await customFetch("api/users/register", "POST",JSON.stringify(values) )
+            if (res.status !== 200) {
+                return toast({
+                    duration: 2000,
+                    variant: "destructive",
+                    title: "Ти довбойоб",
+                    description: (await res.json()).ErrorMessage,
+                });
+            } else {
+                localStorage.setItem("JWT", await res.text());
+                const user = await getCurrentUser()
+                if(user){
+                    setUser(user)
+                }
+            }
         } finally {
             setLoading(false);
         }
@@ -54,6 +74,11 @@ const RegisterModal = () => {
             password: "",
         },
     });
+    useEffect(() => {
+        if (user) {
+            registerModal.onClose();
+        }
+    }, [user]);
     useEffect(() => {
         window.onclick = (event: any) => {
             if (

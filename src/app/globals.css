@@ -82,6 +82,9 @@ html::-moz-scrollbar{
     padding: 40px 1px;
     grid-template-columns: repeat(1, 1fr);
   }
+  .watchingHistoryWrapper{
+    padding: 0px 20px;
+  }
 }
 .player::before{
   content: "Skip";
@@ -89,4 +92,10 @@ html::-moz-scrollbar{
   z-index: 100;
   padding: 5px 10px;
   border: #43aa52;
+}
+.descLink a{
+  color: #43aa52
+}
+.descLink a:hover{
+  text-decoration: underline;
 }

@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import SearchModal from "../SearchModal/SearchModal";
+import SearchModal from "../Search/SearchModal";
 import { useNavbar } from "@/hooks/useNavbar";
 import {
     DropdownMenu,
@@ -20,27 +20,39 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import RegisterModal from "../Modal/RegisterModal";
 import LoginModal from "../Modal/LoginModal";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/router";
+
 import {
     useLoginModal,
     useRegisterModal,
     useSearchModal,
 } from "@/hooks/useModal";
+import NavbarSearchForm from "@/components/Search/NavbarSearchForm";
+import {customFetch} from "@/utils/fetch";
+import {UserDto} from "@/utils/AnimeApi";
+import {useWishlist} from "@/hooks/useWishlist";
+import {useUser} from "@/hooks/useUser";
 
 export const Navbar = () => {
     const searchModal = useSearchModal();
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
-    const { isLogged, logout, login } = useAuth();
+    const { setUser, removeUser } = useUser();
+    const user = useUser(state => state.user)
+    const removeWishlist = useWishlist(state => state.removeWishlist)
+    const setWishlist = useWishlist(state => state.setWishlist)
+    const wishlist = useWishlist((state) => state.wishlist)
     const { mounted, mount } = useNavbar();
+    const [username, setUsername] = useState<UserDto>()
 
-    const onClickSearch = () => {
-        searchModal.onOpen();
-    };
+    const getCurrentUser = useCallback(async() => {
+        const res = await customFetch('api/users/getCurrentUser', "GET")
+        const user = await res.json()
+        return user
+    }, [])
 
     useEffect(() => {
         mount();
-    }, []);
-    useEffect(() => {
         const handleEsc = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
                 searchModal.onClose();
@@ -58,47 +70,46 @@ export const Navbar = () => {
     useEffect(() => {
         if (!mounted) {
             if (localStorage.getItem("JWT")) {
-                login();
+                (async function () {
+                    const res = await getCurrentUser()
+                    if(res){
+                        setUsername(res.username)
+                        setUser(res)
+                        setWishlist(res.wishlist)
+
+                    }
+                    else{
+                        removeUser()
+                        removeWishlist()
+                    }
+                }());
             }
         }
-    }, []);
+    }, [user]);
     return (
         <>
             {mounted && (
                 <>
-                    <div className="sticky rounded-b-lg top-0 left-0 w-full h-[100px] bg-[#43aa52] flex items-center justify-between px-10 gap-4 shadow-lg shadow-[#43aa52] z-30 xl:h-[100px] lg:h-[80px] ">
+                    <div className="sticky rounded-b-lg top-0 left-0 w-full h-[100px] bg-[#43aa52] flex items-center justify-between px-10 gap-4 z-30 xl:h-[100px] lg:h-[80px] ">
                         <Link href={"/"}>
                             <Image
-                                className="xl:w-[500px] xl:h-[80px] lg:h-[60px] w-[450px]"
+                                className="xl:w-[500px] xl:h-[80px] lg:h-[60px] w-[450px] select-none transition hover:scale-[102%] active:scale-[98%]"
                                 width={500}
                                 height={80}
                                 src={"/images/logo.png"}
                                 alt="lalal"
                             />
                         </Link>
-                        <Button
-                            onClick={onClickSearch}
-                            className="ml-auto flex justify-between items-center w-[200px] h-[50px] bg-transparent transition-all ease-linear border-b-2 hover:bg-white/20   text-white border-white  hover:scale-[102%] "
-                        >
-                            <span>Поиск аниме...</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="#fff"
-                                viewBox="0 0 50 50"
-                                width="25px"
-                                height="25px"
-                            >
-                                <path d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z" />
-                            </svg>
-                        </Button>
+                        <NavbarSearchForm />
+
                         <ul className="flex h-full items-center gap-4">
                             <li>
                                 <Link href={"/anime"}>Топ</Link>
                             </li>
                             <li>
-                                <Link href={"/categories"}>Категории</Link>
+                                <Link href={"/anime/genres"}>Категории</Link>
                             </li>
-                            {!isLogged ? (
+                            {!user ? (
                                 <>
                                     <li className="hover: cursor-pointer ">
                                         <Button
@@ -133,7 +144,7 @@ export const Navbar = () => {
                            </DropdownMenuLabel>
                            <DropdownMenuSeparator /> */}
                                             <DropdownMenuGroup>
-                                                {!isLogged ? (
+                                                {!user ? (
                                                     <>
                                                         <DropdownMenuItem
                                                             onClick={() => {
@@ -154,18 +165,23 @@ export const Navbar = () => {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <DropdownMenuItem
-                                                            onClick={() =>
-                                                                logout()
-                                                            }
-                                                        >
-                                                            Выйти
-                                                        </DropdownMenuItem>
-                                                        <Link href={"/profile"}>
+                                                        <Link href={`/${username}`}>
                                                             <DropdownMenuItem>
                                                                 Профиль
                                                             </DropdownMenuItem>
                                                         </Link>
+                                                        <DropdownMenuItem
+                                                            onClick={() => {
+                                                                localStorage.removeItem(
+                                                                    "JWT"
+                                                                );
+                                                                removeUser();
+                                                                removeWishlist()
+                                                            }}
+                                                        >
+                                                            Выйти
+                                                        </DropdownMenuItem>
+
                                                     </>
                                                 )}
                                             </DropdownMenuGroup>

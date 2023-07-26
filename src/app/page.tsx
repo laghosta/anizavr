@@ -5,63 +5,43 @@ import { Link } from "@/utils/Link";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import fav from "../../public/images/favicon.ico";
+import {customFetch} from "@/utils/fetch";
+import Loader from "@/components/Loader/Loader";
+import {useNavbar} from "@/hooks/useNavbar";
 
 const Home = () => {
     const [top, setTop] = useState<AnimePreview[]>();
     const [trending, setTrending] = useState<AnimePreview[]>();
     const [ongoings, setOngoings] = useState<AnimePreview[]>();
-    const [isLoading, setIsLoading] = useState<true | false>(false);
-
-    const getOngoings = () => {
-        fetch(`${Link}/api/getJustReleasedAnime?limit=10&page=1`, {
-            method: "GET",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "ngrok-skip-browser-warning": "6024",
-            },
-        })
-            .then((res) => res.json())
-            .then((res) => setOngoings(res));
+    const [isLoading, setIsLoading] = useState<true | false>(true);
+    const getOngoings = async() => {
+        const res = await customFetch("api/getJustReleasedAnime?limit=10&page=1", "GET").then((res) => res.json())
+        setOngoings(res)
+        setIsLoading(false)
     };
     const getTop = () => {
-        fetch(`${Link}/api/getPopularAnime?limit=10&page=1`, {
-            method: "GET",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "ngrok-skip-browser-warning": "6024",
-            },
-        }).then((res) => res.json().then((res) => setTop(res)));
+        customFetch("api/getPopularAnime?limit=10&page=1", "GET")
+            .then(res => res.json()).then((res) => setTop(res));
     };
     const getTrending = () => {
-        fetch(`${Link}/api/getTrendingAnime?limit=10&page=1`, {
-            method: "GET",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "ngrok-skip-browser-warning": "6024",
-            },
-        })
+       customFetch("api/getTrendingAnime?limit=10&page=1", "GET")
             .then((res) => res.json())
             .then((res) => setTrending(res));
+
     };
 
     useEffect(() => {
-        setIsLoading(true);
-        getOngoings();
         getTop();
         getTrending();
-        setIsLoading(false);
+        getOngoings();
     }, []);
 
     return (
         <div className="flex flex-col items-start gap-10 justify-center pl-10 pr-0">
-            {!isLoading && (
+            {!isLoading ? (
                 <>
                     {top && (
-                        <Section
-                            anime={top}
-                            title={"Топ аниме"}
-                            viewMoreHref="/anime"
-                        />
+                        <Section anime={top} title={"Топ аниме"} viewMoreHref="/anime"/>
                     )}
                     {trending && (
                         <Section anime={trending} title={"Популярные"} />
@@ -70,7 +50,9 @@ const Home = () => {
                         <Section anime={ongoings} title={"Лучшие онгоинги"} />
                     )}
                 </>
-            )}
+            ) :
+                <Loader/>
+            }
         </div>
     );
 };

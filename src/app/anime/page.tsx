@@ -3,7 +3,7 @@ import Anime from "@/components/Anime/Anime";
 import { AnimePreview } from "@/utils/AnimeApi";
 import { Link } from "@/utils/Link";
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 const BrowsingAnime = () => {
     const [anime, setAnime] = useState<AnimePreview[]>([]);
     const [page, setPage] = useState(1);
@@ -28,22 +28,16 @@ const BrowsingAnime = () => {
         getAnime(page);
     }, [page]);
     return (
-        <div className="flex-col h-full w-full items-center justify-center px-10">
+        <div className="h-full w-full flex flex-col px-10">
             <div className="grid pt-10 gap-y-8 animePage">
                 {anime &&
                     anime.map((el, id) => (
                         <Anime rated={id + 1} key={id} element={el} />
                     ))}
             </div>
-            <div className="flex w-full items-center justify-center ">
-                <Button
-                    className="px-5 mx-auto text-[#43aa52] py-3 my-5 text-center border-2 border-gray-900 hover:border-[#43aa52]"
-                    variant={"default"}
-                    onClick={() => setPage((prev) => prev + 1)}
-                >
-                    Загрузить еще...
-                </Button>
-            </div>
+            <Button onClick={() => setPage(page+1)} variant="default"  className={"mt-5"}>
+                Еще...
+            </Button>
         </div>
     );
 };

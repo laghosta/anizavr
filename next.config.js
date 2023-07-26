@@ -5,8 +5,7 @@ module.exports = {
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: "shikimori.me",
-                port: "",
+                hostname: "**",
             },
         ],
     },

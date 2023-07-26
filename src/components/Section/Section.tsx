@@ -12,76 +12,95 @@ import Anime from "../Anime/Anime";
 import "./styles.css";
 interface SectionProps {
     title: string;
-    anime: AnimePreview[];
+    anime?: AnimePreview[];
     viewMoreHref?: string;
+    slidesToShow?: number;
+    inWishList? : boolean
 }
 
-const Section: React.FC<SectionProps> = ({ anime, title, viewMoreHref }) => {
+const Section: React.FC<SectionProps> = ({
+    anime,
+    title,
+    viewMoreHref,
+    slidesToShow,
+    inWishList
+}) => {
+    const data = anime?.length ? anime.map((el, id) => {return  <SwiperSlide key={id}>
+        <Anime inWishlist={inWishList} element={el} />
+    </SwiperSlide>}) : <h4  className="text-white text-3xl font-semibold">Пусто...</h4>
+    const getBreakpoints = (): any => {
+        const breakpoints: any = {
+            0: {
+                slidesPerView: 1.1,
+            },
+            490: {
+                slidesPerView: 1.25,
+            },
+            530: {
+                slidesPerView: 1.5,
+            },
+            650: {
+                slidesPerView: 1.75,
+            },
+            720: {
+                slidesPerView: 2,
+            },
+            750: {
+                slidesPerView: 2.1,
+            },
+            800: {
+                slidesPerView: 2.25,
+            },
+            880: {
+                slidesPerView: 2.5,
+            },
+            1030: {
+                slidesPerView: 3,
+            },
+            1180: {
+                slidesPerView: 3.5,
+            },
+            1320: {
+                slidesPerView: 4,
+            },
+            1440: {
+                slidesPerView: 4.5,
+            },
+            1660: {
+                slidesPerView: 5.25,
+            },
+        };
+        if (!slidesToShow) {
+            return breakpoints;
+        }
+        return null;
+    };
     return (
         <div className="mt-8 flex-col items-center justify-center gap-3 w-full">
             <h4 className="text-4xl  font-bold">{title}</h4>
-            <Swiper
-                slidesPerView={5}
-                pagination={{
-                    clickable: true,
-                }}
-                freeMode={true}
-                grabCursor={true}
-                modules={[Pagination, FreeMode]}
-                breakpoints={{
-                    0: {
-                        slidesPerView: 1.1,
-                    },
-                    490: {
-                        slidesPerView: 1.25,
-                    },
-                    530: {
-                        slidesPerView: 1.5,
-                    },
-                    650: {
-                        slidesPerView: 1.75,
-                    },
-                    720: {
-                        slidesPerView: 2,
-                    },
-                    750: {
-                        slidesPerView: 2.1,
-                    },
-                    800: {
-                        slidesPerView: 2.25,
-                    },
-                    880: {
-                        slidesPerView: 2.5,
-                    },
-                    1030: {
-                        slidesPerView: 3,
-                    },
-                    1180: {
-                        slidesPerView: 3.5,
-                    },
-                    1320: {
-                        slidesPerView: 4,
-                    },
-                    1440: {
-                        slidesPerView: 4.5,
-                    },
-                    1660: {
-                        slidesPerView: 5.25,
-                    },
-                }}
-            >
-                {anime.map((el, id) => (
-                    <SwiperSlide key={id}>
-                        <Anime element={el} />
-                    </SwiperSlide>
-                ))}
+            {
+                anime ?
+                    <Swiper
+                    pagination={{
+                        clickable: true,
+                    }}
+                    slidesPerView={slidesToShow ? slidesToShow : 5}
+                    freeMode={true}
+                    grabCursor={true}
+                    modules={[Pagination, FreeMode]}
+                    breakpoints={getBreakpoints()}
+                >
+                {data}
 
-                {viewMoreHref && (
-                    <SwiperSlide key={viewMoreHref}>
-                        <Anime href={viewMoreHref} />
-                    </SwiperSlide>
-                )}
-            </Swiper>
+                    {viewMoreHref && (
+                        <SwiperSlide key={viewMoreHref}>
+                            <Anime href={viewMoreHref} />
+                        </SwiperSlide>
+                    )}
+                </Swiper>
+                : <h4 className="text-white">Пусто...</h4>
+            }
+
         </div>
     );
 };
