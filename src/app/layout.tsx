@@ -5,6 +5,7 @@ import { Rubik } from "next/font/google";
 import Head from "next/head";
 import { Toaster } from "@/components/ui/toaster";
 import Loader from "@/components/Loader/Loader";
+import {useLoading} from "@/hooks/useLoading";
 const inter = Rubik({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "Anizavr - смотреть аниме бесплатно и без рекламы",
@@ -34,6 +35,7 @@ export default function RootLayout({
                     </div>
                 </main>
                 <Toaster />
+            <Loader/>
             </body>
         </html>
     );

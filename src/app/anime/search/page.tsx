@@ -18,6 +18,7 @@ import { AnimePreview, Image, Result } from "@/utils/AnimeApi";
 import { Link } from "@/utils/Link";
 import { redirect, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import {useAnimeWishlistUpdate} from "@/hooks/useAnimeWishlistUpdate";
 export interface SearchAnime {
     russian?: string | undefined;
     score?: string | undefined;
@@ -33,12 +34,14 @@ const SearchPage = () => {
     const [tempData, setTempData] = useState<Result[]>();
     const [data, setData] = useState<SearchAnime[]>();
     const searchParams = useSearchParams();
+    const {updated, updateWishlist} = useAnimeWishlistUpdate()
     if (!searchParams.get("title")) {
         redirect("/");
     }
 
     useEffect(() => {
         const arr: SearchAnime[] = [];
+        setData([])
         if (tempData) {
             for (let i = 0; i < tempData.length; i++) {
                 const image = new Image();
@@ -67,6 +70,7 @@ const SearchPage = () => {
         })
             .then((res) => res.json())
             .then((res) => setTempData(res.results));
+
     };
 
     const onClickSearch = (

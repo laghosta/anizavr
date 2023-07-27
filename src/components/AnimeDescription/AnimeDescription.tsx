@@ -12,7 +12,7 @@ const AnimeDescription: React.FC<AnimeDescriptionProps> = ({ text }) => {
         }
     }, []);
     return mounted ? (
-        <div className="mt-8 px-2 xl:px-5 lg:px-4 md:px-3 sm:px-3">
+        <div className="mt-8">
             <h4 className="text-3xl font-bold mb-2">Описание</h4>
             <p
                 dangerouslySetInnerHTML={{

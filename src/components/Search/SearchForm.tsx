@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import {useRouter, useSearchParams} from "next/navigation";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import {useAnimeWishlistUpdate} from "@/hooks/useAnimeWishlistUpdate";
 const SearchForm = () => {
     const [value, setValue] = useState("");
     const router = useRouter();
     const searchParams = useSearchParams();
+    const {updated, updateWishlist} = useAnimeWishlistUpdate()
 
     const onClickSearch = (
         event: React.KeyboardEvent<HTMLElement> | React.MouseEvent<HTMLElement>

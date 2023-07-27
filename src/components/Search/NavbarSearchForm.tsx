@@ -5,10 +5,12 @@ import { useRouter, usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import {useAnimeWishlistUpdate} from "@/hooks/useAnimeWishlistUpdate";
 const NavbarSearchForm = () => {
     const [value, setValue] = useState<string>("");
     const router = useRouter();
     const pathname = usePathname();
+    const {updated, updateWishlist} = useAnimeWishlistUpdate()
     const { toast } = useToast();
     const disabled = pathname.includes("/anime/search");
     const onClickSearch = (
@@ -25,6 +27,7 @@ const NavbarSearchForm = () => {
         }
         router.push(`/anime/search?title=${value}`);
         setValue("");
+
     };
 
     return (
