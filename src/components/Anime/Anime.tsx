@@ -71,6 +71,7 @@ const Anime: React.FC<AnimeProps> = ({ element, rated, href, inWishlist=false })
                 >
                     <Image
                         loading="eager"
+                        unoptimized
                         src={`${ShikimoriLink}${element.image?.original}`}
                         width={300}
                         height={400}
