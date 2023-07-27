@@ -65,6 +65,7 @@ const Anime: React.FC<AnimeProps> = ({ element, rated, href, inWishlist=false })
         <div className="transition hover:scale-[102%] justify-self-center ">
             {element && (
                 <Link
+                    prefetch={false}
                     className="relative flex   items-end rounded-xl border-2 border-[#43aa52]  transition w-[300px] h-[400px] anime "
                     href={`/anime/${element.id}`}
                 >
