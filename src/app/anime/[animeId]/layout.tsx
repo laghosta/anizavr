@@ -1,7 +1,5 @@
 'use client'
 import React, {useEffect, useState} from 'react';
-import AnimeData from "@/app/anime/[animeId]/(animePageElems)/AnimeData";
-import AnimeDescription from "@/components/AnimeDescription/AnimeDescription";
 import Loader from "@/components/Loader/Loader";
 import {useLoading} from "@/hooks/useLoading";
 
