@@ -1,6 +1,6 @@
 "use client";
 import { AnimePreview } from "@/utils/AnimeApi";
-import {Link as ApiLink} from '@/utils/Link';
+import {Link as ApiLink, ShikimoriLink} from '@/utils/Link';
 import Link from 'next/link'
 import Image from "next/image";
 import React, {useCallback, useEffect, useState} from "react";
@@ -69,7 +69,7 @@ const Anime: React.FC<AnimeProps> = ({ element, rated, href, inWishlist=false })
                     href={`/anime/${element.id}`}
                 >
                     <Image
-                        src={`https://shikimori.me/${element.image?.original}`}
+                        src={`${ShikimoriLink}${element.image?.original}`}
                         width={300}
                         height={400}
                         alt="anime poster"

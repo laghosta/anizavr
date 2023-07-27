@@ -8,6 +8,7 @@ import {customFetch} from "@/utils/fetch";
 import Link from "next/link";
 import {useUser} from "@/hooks/useUser";
 import {useParams} from "next/navigation";
+import {ShikimoriLink} from "@/utils/Link";
 
 interface TierListProps {
     element:TierlistAnime,
@@ -40,7 +41,7 @@ const TierListItem:React.FC<TierListProps> = ({element, isFirst, isLast,index}) 
                     #{index}
                 </h4>
                 <Link href={`/anime/${element.animeId}`}  className="relative min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] xl:max-h-[100px] xl:max-w-[100px] xl:min-h-[100px] xl:min-w-[100px] lg:max-h-[100px] lg:min-h-[100px] md:min-h-[100px] md:max-h-[100px] rounded-full">
-                    <Image src={`https://shikimori.me/${element.posterUrl}`} fill={true} alt="tier list anime poster"
+                    <Image src={`${ShikimoriLink}${element.posterUrl}`} fill={true} alt="tier list anime poster"
                            className="rounded-full border-2 border-[#43aa52]"/>
                 </Link>
                 <p className="text-lg xl:text-2xl lg:text-xl md:text-lg sm:text-lg font-semibold">{element.title}</p>
