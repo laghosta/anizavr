@@ -1,2 +1,2 @@
-export const Link = "http://localhost:5234";
+export const Link = process.env.BACKENDURL;
 export const ShikimoriLink = "https://shikimori.me/";
