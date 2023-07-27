@@ -70,6 +70,7 @@ const Anime: React.FC<AnimeProps> = ({ element, rated, href, inWishlist=false })
                     href={`/anime/${element.id}`}
                 >
                     <Image
+                        loading="eager"
                         src={`${ShikimoriLink}${element.image?.original}`}
                         width={300}
                         height={400}
