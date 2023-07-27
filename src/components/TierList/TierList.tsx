@@ -9,7 +9,7 @@ interface TierListProps{
 const TierList:React.FC<TierListProps> = ({anime}) => {
     let items = anime ? anime.map((el, id) =>
         {
-           return <TierListItem element={el} index={id+1} isFirst={id===0}  isLast={id=== anime.length-1}/>
+           return <TierListItem key={id}  element={el} index={id+1} isFirst={id===0}  isLast={id=== anime.length-1}/>
         }
     )
     :<h4 className="text-center text-3xl font-semibold">Ваш Тир-Лист пустой...</h4>
