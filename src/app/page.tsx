@@ -8,6 +8,9 @@ import fav from "../../public/images/favicon.ico";
 import {customFetch} from "@/utils/fetch";
 import Loader from "@/components/Loader/Loader";
 import {useNavbar} from "@/hooks/useNavbar";
+import {Metadata} from "next";
+
+
 
 const Home = () => {
     const [top, setTop] = useState<AnimePreview[]>();
@@ -37,6 +40,7 @@ const Home = () => {
     }, []);
 
     return (
+
         <div className="flex flex-col items-start gap-10 justify-center pl-10 pr-0">
             {!isLoading ? (
                 <>

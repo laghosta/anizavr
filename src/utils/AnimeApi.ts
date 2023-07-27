@@ -53,7 +53,7 @@ export interface IAddCommentDto {
 export class Anime implements IAnime {
     shikimoriDetails?: AnimeID;
     kodikDetails?: KodikResults;
-    timestamps?: Show;
+    timestamps?: EpisodeTimestamps[] | undefined;
 
     constructor(data?: IAnime) {
         if (data) {
@@ -68,7 +68,11 @@ export class Anime implements IAnime {
         if (_data) {
             this.shikimoriDetails = _data["shikimoriDetails"] ? AnimeID.fromJS(_data["shikimoriDetails"]) : <any>undefined;
             this.kodikDetails = _data["kodikDetails"] ? KodikResults.fromJS(_data["kodikDetails"]) : <any>undefined;
-            this.timestamps = _data["timestamps"] ? Show.fromJS(_data["timestamps"]) : <any>undefined;
+            if (Array.isArray(_data["timestamps"])) {
+                this.timestamps = [] as any;
+                for (let item of _data["timestamps"])
+                    this.timestamps!.push(EpisodeTimestamps.fromJS(item));
+            }
         }
     }
 
@@ -83,7 +87,11 @@ export class Anime implements IAnime {
         data = typeof data === 'object' ? data : {};
         data["shikimoriDetails"] = this.shikimoriDetails ? this.shikimoriDetails.toJSON() : <any>undefined;
         data["kodikDetails"] = this.kodikDetails ? this.kodikDetails.toJSON() : <any>undefined;
-        data["timestamps"] = this.timestamps ? this.timestamps.toJSON() : <any>undefined;
+        if (Array.isArray(this.timestamps)) {
+            data["timestamps"] = [];
+            for (let item of this.timestamps)
+                data["timestamps"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -91,7 +99,7 @@ export class Anime implements IAnime {
 export interface IAnime {
     shikimoriDetails?: AnimeID;
     kodikDetails?: KodikResults;
-    timestamps?: Show;
+    timestamps?: EpisodeTimestamps[] | undefined;
 }
 
 export class AnimeID implements IAnimeID {
@@ -522,11 +530,15 @@ export interface ICommentDto {
     text?: string | undefined;
 }
 
-export class Episode implements IEpisode {
-    name?: string | undefined;
-    timestamps?: Timestamp[] | undefined;
+export class EpisodeTimestamps implements IEpisodeTimestamps {
+    id?: string;
+    animeId?: number;
+    episode?: number;
+    openingStart?: number | undefined;
+    openingEnd?: number | undefined;
+    endingStart?: number | undefined;
 
-    constructor(data?: IEpisode) {
+    constructor(data?: IEpisodeTimestamps) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -537,37 +549,41 @@ export class Episode implements IEpisode {
 
     init(_data?: any) {
         if (_data) {
-            this.name = _data["name"];
-            if (Array.isArray(_data["timestamps"])) {
-                this.timestamps = [] as any;
-                for (let item of _data["timestamps"])
-                    this.timestamps!.push(Timestamp.fromJS(item));
-            }
+            this.id = _data["id"];
+            this.animeId = _data["animeId"];
+            this.episode = _data["episode"];
+            this.openingStart = _data["openingStart"];
+            this.openingEnd = _data["openingEnd"];
+            this.endingStart = _data["endingStart"];
         }
     }
 
-    static fromJS(data: any): Episode {
+    static fromJS(data: any): EpisodeTimestamps {
         data = typeof data === 'object' ? data : {};
-        let result = new Episode();
+        let result = new EpisodeTimestamps();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        if (Array.isArray(this.timestamps)) {
-            data["timestamps"] = [];
-            for (let item of this.timestamps)
-                data["timestamps"].push(item.toJSON());
-        }
+        data["id"] = this.id;
+        data["animeId"] = this.animeId;
+        data["episode"] = this.episode;
+        data["openingStart"] = this.openingStart;
+        data["openingEnd"] = this.openingEnd;
+        data["endingStart"] = this.endingStart;
         return data;
     }
 }
 
-export interface IEpisode {
-    name?: string | undefined;
-    timestamps?: Timestamp[] | undefined;
+export interface IEpisodeTimestamps {
+    id?: string;
+    animeId?: number;
+    episode?: number;
+    openingStart?: number | undefined;
+    openingEnd?: number | undefined;
+    endingStart?: number | undefined;
 }
 
 export class Genre implements IGenre {
@@ -1132,50 +1148,6 @@ export interface IShikimoriRelated {
     anime?: AnimePreview;
 }
 
-export class Show implements IShow {
-    episodes?: Episode[] | undefined;
-
-    constructor(data?: IShow) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["episodes"])) {
-                this.episodes = [] as any;
-                for (let item of _data["episodes"])
-                    this.episodes!.push(Episode.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): Show {
-        data = typeof data === 'object' ? data : {};
-        let result = new Show();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.episodes)) {
-            data["episodes"] = [];
-            for (let item of this.episodes)
-                data["episodes"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IShow {
-    episodes?: Episode[] | undefined;
-}
-
 export class Studio implements IStudio {
     id?: number;
     name?: string | undefined;
@@ -1288,46 +1260,6 @@ export interface ITierlistAnime {
     rating?: string | undefined;
 }
 
-export class Timestamp implements ITimestamp {
-    type?: Type;
-    at?: number;
-
-    constructor(data?: ITimestamp) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.type = _data["type"] ? Type.fromJS(_data["type"]) : <any>undefined;
-            this.at = _data["at"];
-        }
-    }
-
-    static fromJS(data: any): Timestamp {
-        data = typeof data === 'object' ? data : {};
-        let result = new Timestamp();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type ? this.type.toJSON() : <any>undefined;
-        data["at"] = this.at;
-        return data;
-    }
-}
-
-export interface ITimestamp {
-    type?: Type;
-    at?: number;
-}
-
 export class Translation implements ITranslation {
     id?: number;
     title?: string | undefined;
@@ -1370,42 +1302,6 @@ export interface ITranslation {
     id?: number;
     title?: string | undefined;
     type?: string | undefined;
-}
-
-export class Type implements IType {
-    name?: string | undefined;
-
-    constructor(data?: IType) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"];
-        }
-    }
-
-    static fromJS(data: any): Type {
-        data = typeof data === 'object' ? data : {};
-        let result = new Type();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        return data;
-    }
-}
-
-export interface IType {
-    name?: string | undefined;
 }
 
 export class UserDto implements IUserDto {

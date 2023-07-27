@@ -34,20 +34,20 @@ const TierListItem:React.FC<TierListProps> = ({element, isFirst, isLast,index}) 
         }
     }
     return (
-        <li className="border-2 border-[#43aa52] w-full flex rounded-3xl items-center gap-5 justify-between px-5 py-2 transition-all hover:scale-[101%]">
+        <li className="border-2 border-[#43aa52] w-full flex rounded-3xl items-center gap-1 xl:gap-5 lg:gap-4 md:gap-3 sm:gap-2 justify-between px-5 py-2 transition-all hover:scale-[101%]">
             <div className="flex items-center gap-3">
                 <h4 className={cn( index === 1 ? "text-yellow-400" : index === 2 ? "text-orange-300" : index === 3 ? "text-red-400" : "text-white"  ,"text-3xl")}>
                     #{index}
                 </h4>
-                <Link href={`/anime/${element.animeId}`}  className="relative w-[100px] h-[100px] rounded-full">
+                <Link href={`/anime/${element.animeId}`}  className="relative min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] xl:max-h-[100px] xl:max-w-[100px] xl:min-h-[100px] xl:min-w-[100px] lg:max-h-[100px] lg:min-h-[100px] md:min-h-[100px] md:max-h-[100px] rounded-full">
                     <Image src={`https://shikimori.me/${element.posterUrl}`} fill={true} alt="tier list anime poster"
                            className="rounded-full border-2 border-[#43aa52]"/>
                 </Link>
-                <p className="text-2xl font-semibold">{element.title}</p>
+                <p className="text-lg xl:text-2xl lg:text-xl md:text-lg sm:text-lg font-semibold">{element.title}</p>
             </div>
             {
                 user?.username === username ?
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-1 items-center xl:gap-3 lg:gap-3 md:gap-3 sm:gap-2 ">
                         {
                             !isFirst ? <div
                                 onClick={() => changeTierlistAnimePosition(true)}>

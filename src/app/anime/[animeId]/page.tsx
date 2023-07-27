@@ -16,9 +16,12 @@ import {undefined} from "zod";
 import {Button} from "@/components/ui/button";
 import AddToTierlistButton from "@/components/TierList/AddToTierlistButton";
 import Error from "@/app/anime/[animeId]/Error";
-import {redirect} from "next/navigation";
+import {redirect, useSearchParams} from "next/navigation";
 import {toast} from "@/components/ui/use-toast";
 import {allowedDisplayValues} from "next/dist/compiled/@next/font/dist/constants";
+import anime from "@/components/Anime/Anime";
+import {Metadata, ResolvingMetadata} from "next";
+
 interface AnimeProps {
     params: {
         animeId: number;
@@ -37,6 +40,14 @@ const getRelatedAnime = async (id: number) => {
     const res = await customFetch(`api/getRelatedAnime/${id}`, "GET").then(res => res.json())
     return res;
 };
+
+export async function generateMetadata({params}:any){
+    const res = await getAnime(params.animeId)
+    return {
+        title: res.shikimoriDetails.licenseNameRu,
+        description: res.shikimoriDetails.description
+    }
+}
 const Anime: React.FC<AnimeProps> = async (props) => {
     const data: IAnime = await getAnime(props.params.animeId);
     const details: AnimeID | undefined = data?.shikimoriDetails
@@ -59,18 +70,19 @@ const Anime: React.FC<AnimeProps> = async (props) => {
     }
     else return (
         <div className="w-full h-full">
-            <div className="flex flex-col mt-10 text-center justify-between max-w-[960px] mx-auto w-screen">
-                <h1 className="font-bold text-3xl">{details!.russian}</h1>
-                <p className="font-normal text-xl">{details!.name}</p>
-                <div className="flex items-center h-[400px] w-full mt-10 gap-6">
-                    <Image
-                        src={`https://shikimori.me${details!.image!.original}`}
-                        width={300}
-                        height={400}
-                        alt={"anime poster"}
-                        className="rounded-xl border-2 border-[#43aa52] h-[400px]"
-                    />
-                    <ul className="flex flex-col justify-between items-baseline h-[400px]">
+            <div className="flex flex-col mt-5 xl:mt-10 lg:mt-8 md:mt-6 text-center justify-between max-w-[960px] mx-auto w-screen">
+                <h1 className="font-bold text-3xl px-2">{details!.russian}</h1>
+                <p className="font-normal text-xl px-2">{details!.name}</p>
+                <div className="flex flex-col xl:flex-row lg:flex-row md:flex-row sm:flex-col items-center xl:h-[400px] lg:h-[400px] md:h-[400px] h-full  w-full mt-5 xl:mt-10 lg:mt-8 md:mt-6 gap-6">
+                        <Image
+                            src={`https://shikimori.me${details!.image!.original}`}
+                            width={300}
+                            height={400}
+                            alt={"anime poster"}
+                            className="rounded-xl border-2 border-[#43aa52] h-[400px]"
+                        />
+
+                    <ul className="flex flex-col justify-between items-baseline max-h-[400px] xl:h-[400px] lg:h-[400px] md:h-[400px] gap-2">
                         <li>
                             Статус:{" "}
                             <span
@@ -100,7 +112,7 @@ const Anime: React.FC<AnimeProps> = async (props) => {
                                 src={"/images/rating.png"}
                                 width={20}
                                 height={20}
-                                alt={"///"}
+                                alt={"rating icon"}
                             />
                             {details!.score!}
                         </li>
@@ -148,7 +160,7 @@ const Anime: React.FC<AnimeProps> = async (props) => {
                 ) : null}
                 {data && (
                     <Player
-                        link={`https:${data?.kodikDetails?.results![0].link}` } animeId={props.params.animeId}
+                        link={`https:${data?.kodikDetails?.results![0].link}` } animeId={props.params.animeId} timestamps={data.timestamps!}
                     />
                 )}
                 {

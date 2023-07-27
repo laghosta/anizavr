@@ -85,7 +85,7 @@ const Profile = () => {
                 return <Error/>
             }
             else{
-                return <div className="xl:px-[50px] lg:px-[40px] md:px-[30px] sm:px-[40px] mt-10 watchingHistoryWrapper">
+                return <div className="xl:px-[50px] lg:px-[40px] md:px-[30px] sm:px-[40px] mt-3 xl:mt-10 lg:mt-8 md:mt-6 sm:mt-5 watchingHistoryWrapper">
                     <WatchingHistoryBlock watchingHistory={user.currentlyWatchingAnime!}/>
                     <TierList anime={tierlist}/>
                     <Section inWishList={true} title="Хочу посмотреть" anime={wishlistAnime}/>

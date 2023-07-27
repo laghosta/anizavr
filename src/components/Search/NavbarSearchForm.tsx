@@ -30,12 +30,12 @@ const NavbarSearchForm = () => {
     return (
         <>
             {!disabled ? (
-                <form className=" border-white flex gap-2 items-center ml-auto border-2  rounded-md px-3 pr-5 ">
+                <form className="border-white flex gap-2 items-center ml-auto border-2 rounded-md md:px-2 sm:px-2 px-2 pr-1">
                     <Input
                         onChange={(event) => setValue(event.target.value)}
                         value={value}
                         className={cn(
-                            "flex justify-between w-[150px]  focus:w-[400px]  focus:border-none outline-none border-none text-md focus:outline-none items-center text-white placeholder:text-white hover:border-none py-3 bg-transparent transition-all ease-linear"
+                            "flex justify-between max-w-[110px] xl:max-w-[400px] lg:max-w-[400px] md:max-w-[150px] sm:max-w-[150px] w-[150px]  focus:w-[400px] px-0 focus:border-none outline-none border-none text-md focus:outline-none items-center text-white placeholder:text-white hover:border-none py-1 xl:py-3 lg:py-3 md:py-2 sm:py-2 bg-transparent transition-all ease-linear "
                         )}
                         placeholder="Поиск аниме..."
                     />

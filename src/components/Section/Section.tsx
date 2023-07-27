@@ -70,10 +70,12 @@ const Section: React.FC<SectionProps> = ({
                 slidesPerView: 5.25,
             },
         };
-        if (!slidesToShow) {
+        if(!slidesToShow){
             return breakpoints;
+
         }
-        return null;
+        return null
+
     };
     return (
         <div className="mt-8 flex-col items-center justify-center gap-3 w-full">

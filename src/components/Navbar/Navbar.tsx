@@ -90,46 +90,49 @@ export const Navbar = () => {
         <>
             {mounted && (
                 <>
-                    <div className="sticky rounded-b-lg top-0 left-0 w-full h-[100px] bg-[#43aa52] flex items-center justify-between px-10 gap-4 z-30 xl:h-[100px] lg:h-[80px] ">
+                    <div className="sticky rounded-b-lg top-0 left-0 w-full h-[70px] xl:h-[100px] lg:h-[100px] md:h-[80px] sm:h-[70px] bg-[#43aa52] flex items-center justify-between px-2 gap-4 z-30  xl:px-10 lg:px-8 md:px-6 sm:px-4 ">
                         <Link href={"/"}>
-                            <Image
-                                className="xl:w-[500px] xl:h-[80px] lg:h-[60px] w-[450px] select-none transition hover:scale-[102%] active:scale-[98%]"
-                                width={500}
-                                height={80}
-                                src={"/images/logo.png"}
-                                alt="lalal"
-                            />
+                            {
+                                window.innerWidth > 720 ?
+                                    <Image
+                                        className="xl:w-[500px] xl:h-[80px] lg:h-[60px] w-[450px] select-none transition hover:scale-[102%] active:scale-[98%]"
+                                        width={500}
+                                        height={80}
+                                        src="/images/logo.png"
+                                        alt="logo"
+                                    />
+                                    :
+                                    <Image
+                                        className="select-none transition hover:scale-[102%] active:scale-[98%]"
+                                        width={60}
+                                        height={60}
+                                        src="/images/mini-logo.png"
+                                        alt="logo"
+                                    />
+                            }
+
                         </Link>
                         <NavbarSearchForm />
 
-                        <ul className="flex h-full items-center gap-4">
+                        <ul className="flex w-fit h-full items-center lg:gap-4 md:gap-3 sm:gap-2 gap-2">
                             <li>
                                 <Link href={"/anime"}>Топ</Link>
                             </li>
-                            <li>
-                                <Link href={"/anime/genres"}>Категории</Link>
-                            </li>
+
                             {!user ? (
-                                <>
-                                    <li className="hover: cursor-pointer ">
-                                        <Button
-                                            onClick={loginModal.onOpen}
-                                            className="bg-transparent border-2 transition border-white hover:bg-white/20 hover:scale-[105%]"
-                                            variant={"default"}
-                                        >
-                                            Войти
-                                        </Button>
+                                <ul className="h-fit justify-center py-5 flex flex-col gap-0 xl:gap-3 lg:gap-2 md:gap-2 sm:gap-0 items-center xl:flex-row lg:flex-row md:flex-row sm:flex-col">
+                                    <li
+                                        onClick={loginModal.onOpen}
+                                        className=" text-center underline rounded-xl w-full h-fit bg-transparent  xl:px-5 xl:py-3 lg:px-4 lg:py-2 md:px-3 md:py-1 sm:px-2 sm:py-1  border-0 xl:borer-2 lg:border-2 md:border-2 sm:border-0 transition border-white hover:bg-white/20 hover:scale-[105%]"
+                                    >
+                                        Вход
                                     </li>
-                                    <li className="hover: cursor-pointer">
-                                        <Button
-                                            onClick={registerModal.onOpen}
-                                            className="bg-transparent border-2 transition border-white hover:bg-white/20 hover:scale-[105%]"
-                                            variant={"default"}
-                                        >
-                                            Зарегистрироваться
-                                        </Button>
-                                    </li>
-                                </>
+                                    <li
+                                        onClick={registerModal.onOpen}
+                                        className="text-center underline rounded-xl w-full h-fit bg-transparent  xl:px-5 xl:py-3 lg:px-4 lg:py-2 md:px-3 md:py-1 sm:px-2 sm:py-1  border-0 xl:borer-2 lg:border-2 md:border-2 sm:border-0 transition border-white hover:bg-white/20 hover:scale-[105%]"
+                                    >
+                                        Регистрация</li>
+                                </ul>
                             ) : (
                                 <li className="hover: cursor-pointer hover:scale-[105%]">
                                     <DropdownMenu>
@@ -138,7 +141,7 @@ export const Navbar = () => {
                                                 <AvatarImage src="/images/avatar.jpg" />
                                             </Avatar>
                                         </DropdownMenuTrigger>
-                                        <DropdownMenuContent className="w-48 mr-10 mt-2">
+                                        <DropdownMenuContent className="w-48 mr-3 mt-2 xl:mr-10 lg:mr-8 md:mr-6">
                                             {/* <DropdownMenuLabel>
                                Panel Position
                            </DropdownMenuLabel>

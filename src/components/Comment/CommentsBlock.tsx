@@ -63,7 +63,7 @@ const CommentsBlock: React.FC<CommentsBlockProps> = ({ animeId }) => {
         getComments();
     }, [changed])
     return (
-        <div className="w-full mt-5">
+        <div className="w-full mt-5 px-2 xl:px-5 lg:px-4 md:px-3 sm:px-3">
             <h4 className="text-center text-3xl font-bold mb-5">Комментарии</h4>
             <div className="flex flex-col items-start gap-3">
                 {comments &&

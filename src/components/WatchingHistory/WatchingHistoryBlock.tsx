@@ -28,7 +28,7 @@ const WatchingHistoryBlock:React.FC<WatchingHistoryBlock> = ({watchingHistory}) 
 
 
         return (
-            <div className={cn(`${!isOpen ? "max-h-[450px] overflow-y-hidden" : "overflow-y-visible"} `)}>
+            <div className={cn(`${!isOpen ? "xl:max-h-[450px] lg:max-h-[450px]  md:max-h-[750px] sm:max-h-[750px] max-h-[750px] " : "overflow-y-visible"} `)}>
                 <h4 className='text-3xl text-white mb-5 font-bold'>
                     История просмотров
                 </h4>

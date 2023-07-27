@@ -20,7 +20,7 @@ const RelatedAnimeSection: React.FC<RelatedAnimeSectionProps> = ({
     };
 
     return (
-        <div className="mb-10 flex flex-col items-center">
+        <div className="mb-10 flex flex-col items-center px-2 xl:px-5 lg:px-4 md:px-3 sm:px-3">
             <div
                 className={cn(
                     isOpen
