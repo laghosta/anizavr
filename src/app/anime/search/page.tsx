@@ -107,7 +107,7 @@ const SearchPage = () => {
                     <div className="ml-5 mb-5 w-[200px]">
                         <SearchForm />
                     </div>
-                    <div className="flex flex-wrap gap-y-8 rounded-xl h-full w-full">
+                    <div className="flex flex-wrap gap-x-4 gap-y-8 rounded-xl h-full w-full">
                         {data?.length ? (
                             data?.map((el, id) => (
                                 <Anime key={id} element={el} />
