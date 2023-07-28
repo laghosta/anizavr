@@ -9,4 +9,8 @@ module.exports = {
             },
         ],
     },
+    env: {
+        SERVER: process.env.NEXT_PUBLIC_BACKEND_URL,
+        SHIKIMORI:process.env.NEXT_PUBLIC_SHIKIMORI_URL
+    },
 };

@@ -1,2 +1,2 @@
-export const Link = process.env.BACKENDURL;
-export const ShikimoriLink = "https://shikimori.me/";
+export const Link = process.env.SERVER;
+export const ShikimoriLink = process.env.SHIKIMORI;
