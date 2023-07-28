@@ -98,13 +98,13 @@ const SearchPage = () => {
         <div className="px-10">
             {mounted && (
                 <div className="xl:px-[50px] lg:px-[40px] md:px-[30px] sm:px-[40px] mt-10">
-                    <h4 className=" ml-5 text-3xl mb-5">
+                    <h4 className="text-3xl mb-5">
                         Результаты поиска по названию:{" "}
                         <span className="text-[#43aa53]">
                             {searchParams.get("title")}
                         </span>
                     </h4>
-                    <div className="ml-5 mb-5 w-[200px]">
+                    <div className="mb-5 w-[200px]">
                         <SearchForm />
                     </div>
                     <div className="flex flex-wrap gap-x-4 gap-y-8 rounded-xl h-full w-full">
