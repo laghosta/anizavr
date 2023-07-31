@@ -12,6 +12,10 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  color: #ffffff;
+}
+body{
+  color: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,7 +27,7 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: #fff;
   background-color:rgb(26, 26, 26);
     
 }
