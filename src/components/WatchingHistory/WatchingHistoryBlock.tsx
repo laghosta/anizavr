@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import WatchingHistoryItem from "@/components/WatchingHistory/WatchingHistoryItem";
 import { Link } from "@/utils/Link";
 import { customFetch } from "@/utils/fetch";
@@ -15,6 +15,7 @@ const WatchingHistoryBlock: React.FC<WatchingHistoryBlock> = ({
     watchingHistory,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
+    console.log(watchingHistory);
     let data = watchingHistory.length ? (
         watchingHistory?.map((el: UserWatchingAnime, id: number) => {
             return (
@@ -35,30 +36,32 @@ const WatchingHistoryBlock: React.FC<WatchingHistoryBlock> = ({
             />
         </div>
     );
-    //@ts-ignore
-    let shortedData = watchingHistory.length ? (
-        watchingHistory
-            .toSpliced(4, watchingHistory.length - 1)
-            .map((el: UserWatchingAnime, id: number) => {
+    let shortenData;
+
+    const setSortedData = useMemo(() => {
+        let arr = [...watchingHistory];
+        arr = arr.slice(0, 4);
+        return watchingHistory.length ? (
+            arr.map((el: UserWatchingAnime, id: number) => {
                 return (
                     <li key={id}>
                         <WatchingHistoryItem el={el} />
                     </li>
                 );
             })
-    ) : (
-        <div className="flex items-center ">
-            <h4 className="text-3xl ">
-                Ты до сих пор не посмотрел никакого аниме, а зря...
-            </h4>
-            <img
-                src="/images/2.png"
-                alt="История просмотров пуста"
-                className="w-[200px] h-[200px]"
-            />
-        </div>
-    );
-
+        ) : (
+            <div className="flex items-center ">
+                <h4 className="text-3xl ">
+                    Ты до сих пор не посмотрел никакого аниме, а зря...
+                </h4>
+                <img
+                    src="/images/2.png"
+                    alt="История просмотров пуста"
+                    className="w-[200px] h-[200px]"
+                />
+            </div>
+        );
+    }, [watchingHistory]);
     return (
         <div
             className={cn(
@@ -77,7 +80,7 @@ const WatchingHistoryBlock: React.FC<WatchingHistoryBlock> = ({
                     watchingHistory.length ? "justify-start" : "justify-start"
                 }`}
             >
-                {isOpen ? data : shortedData}
+                {isOpen ? data : setSortedData}
             </ul>
             {watchingHistory.length > 4 ? (
                 <svg

@@ -1,22 +1,24 @@
 "use client";
 import React, { createElement, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
-import {Link} from '@/utils/Link'
-import {headers} from "next/headers";
-import {header} from "@/utils/Header";
-import {customFetch} from "@/utils/fetch";
-import {redirect} from "next/navigation";
-import {cn} from "@/lib/utils";
+import { Link } from "@/utils/Link";
+import { headers } from "next/headers";
+import { header } from "@/utils/Header";
+import { customFetch } from "@/utils/fetch";
+import { redirect } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import {EpisodeTimestamps} from "@/utils/AnimeApi";
+import { EpisodeTimestamps } from "@/utils/AnimeApi";
+import { useUser } from "./../../hooks/useUser";
 
 interface PlayerProps {
     link: string | undefined;
-    animeId? : number
-    timestamps : EpisodeTimestamps[]
+    animeId?: number;
+    timestamps: EpisodeTimestamps[];
 }
 
-const Player: React.FC<PlayerProps> = ({link, animeId, timestamps}) => {
+const Player: React.FC<PlayerProps> = ({ link, animeId, timestamps }) => {
+    const { user } = useUser();
     const [isStarted, setIsStarted] = useState(false);
     const [hasWindow, setHasWindow] = useState(false);
     // const [inFullScreen, setInFullScreen] = useState(false)
@@ -25,13 +27,21 @@ const Player: React.FC<PlayerProps> = ({link, animeId, timestamps}) => {
     // const handle = useFullScreenHandle()
     // const [timestamp, setTimestamp] = useState<EpisodeTimestamps>()
     // const IframeRef = useRef<HTMLIFrameElement | null>(null)
-    let currentEpisode:number;
-    const addToWatching = (seconds:number) => {
-        customFetch(`api/users/addToWatching/${Number(animeId)}?currentEpisode=${currentEpisode}&secondsTotal=${seconds}`, "POST")
-    }
+    let currentEpisode: number;
+    const addToWatching = (seconds: number) => {
+        customFetch(
+            `api/users/addToWatching/${Number(
+                animeId
+            )}?currentEpisode=${currentEpisode}&secondsTotal=${seconds}`,
+            "POST"
+        );
+    };
     const updateTimestamps = (secondsWatched: number) => {
-        customFetch(`api/users/updateTimestamps?animeId=${animeId}&secondsWatched=${secondsWatched}`, "PUT")
-    }
+        customFetch(
+            `api/users/updateTimestamps?animeId=${animeId}&secondsWatched=${secondsWatched}`,
+            "PUT"
+        );
+    };
 
     const kodikMessageListener = (message: any) => {
         if (message.data.key === "kodik_player_play") {
@@ -40,41 +50,43 @@ const Player: React.FC<PlayerProps> = ({link, animeId, timestamps}) => {
         if (message.data.key === "kodik_player_pause") {
             setIsStarted(false);
         }
-        if(message.data.key === "kodik_player_duration_update"){
-            addToWatching(message.data.value)
+        if (message.data.key === "kodik_player_duration_update") {
+            if (user) {
+                addToWatching(message.data.value);
+            }
         }
-        if(message.data.key === "kodik_player_time_update"){
-                // if(timestamp){
-                //     console.log(timestamp)
-                //     if(timestamp.openingStart!==null && timestamp.openingEnd!==null){
-                //         if((Math.round(timestamp?.openingStart!) <= message.data.value) && (Math.round(timestamp?.openingEnd!) >= message.data.value)){
-                //             setSkipOpening(true)
-                //             console.log(2)
-                //         }
-                //         else{
-                //             setSkipOpening(false)
-                //
-                //         }
-                //     }
-                //     else if(timestamp.endingStart !== null){
-                //         if(Math.round(timestamp?.endingStart!) <= message.data.value){
-                //             setSkipEnding(true)
-                //         }
-                //         else{
-                //             setSkipEnding(false)
-                //
-                //         }
-                //     }
-                //
-                // }
-                updateTimestamps(message.data.value)
-
+        if (message.data.key === "kodik_player_time_update") {
+            // if(timestamp){
+            //     console.log(timestamp)
+            //     if(timestamp.openingStart!==null && timestamp.openingEnd!==null){
+            //         if((Math.round(timestamp?.openingStart!) <= message.data.value) && (Math.round(timestamp?.openingEnd!) >= message.data.value)){
+            //             setSkipOpening(true)
+            //             console.log(2)
+            //         }
+            //         else{
+            //             setSkipOpening(false)
+            //
+            //         }
+            //     }
+            //     else if(timestamp.endingStart !== null){
+            //         if(Math.round(timestamp?.endingStart!) <= message.data.value){
+            //             setSkipEnding(true)
+            //         }
+            //         else{
+            //             setSkipEnding(false)
+            //
+            //         }
+            //     }
+            //
+            // }
+            if (user) {
+                updateTimestamps(message.data.value);
+            }
         }
-        if(message.data.key === "kodik_player_current_episode"){
-
+        if (message.data.key === "kodik_player_current_episode") {
             // setSkipEnding(false)
             // setSkipOpening(false)
-            currentEpisode = message.data.value.episode
+            currentEpisode = message.data.value.episode;
             // if(timestamps){
             //     let el = timestamps.find(el => el.episode === message.data.value.episode)
             //     setTimestamp(el)
@@ -99,22 +111,24 @@ const Player: React.FC<PlayerProps> = ({link, animeId, timestamps}) => {
     // }
 
     useEffect(() => {
-        setHasWindow(true)
+        setHasWindow(true);
         window.addEventListener("message", kodikMessageListener);
         return () => {
             window.removeEventListener("message", kodikMessageListener);
-        }
-    },[])
+        };
+    }, []);
 
     if (!hasWindow) return null;
     return (
         <div>
             {hasWindow && (
                 // <FullScreen handle={handle}>
-                <div  className="relative w-full h-full">
+                <div className="relative w-full h-full">
                     <iframe
                         // ref={IframeRef}
-                        className={cn("xl:w-[960px] xl:h-[600px] lg:w-[720px] lg:h-[480px] md:h-[400px] sm:h-[350px] w-screen h-[300px]" )}
+                        className={cn(
+                            "xl:w-[960px] xl:h-[600px] lg:w-[720px] lg:h-[480px] md:h-[400px] sm:h-[350px] w-screen h-[300px]"
+                        )}
                         src={link}
                         width={"960px"}
                         height={"600px"}
@@ -144,7 +158,6 @@ const Player: React.FC<PlayerProps> = ({link, animeId, timestamps}) => {
                     {/*    </Button>*/}
                     {/*    : null*/}
                     {/*}*/}
-
                 </div>
             )}
             {isStarted && (
