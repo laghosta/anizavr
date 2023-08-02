@@ -70,7 +70,7 @@ const Anime: React.FC<AnimeProps> = async (props) => {
 
     if (!data?.kodikDetails?.results?.length) {
         return (
-            <div className="text-white">
+            <div className="text-white w-full text-center text-3xl font-bold">
                 Данное аниме еще не добавлено на сайт
             </div>
         );
@@ -185,7 +185,7 @@ const Anime: React.FC<AnimeProps> = async (props) => {
                         <Section
                             title="Похожие аниме"
                             anime={similarAnime}
-                            slidesToShow={3}
+                            slidesToShow
                         />
                     ) : null}
 

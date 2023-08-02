@@ -14,7 +14,7 @@ interface SectionProps {
     title: string;
     anime?: AnimePreview[];
     viewMoreHref?: string;
-    slidesToShow?: number;
+    slidesToShow?: boolean;
     inWishList?: boolean;
 }
 
@@ -43,6 +43,33 @@ const Section: React.FC<SectionProps> = ({
             />
         </div>
     );
+
+    const checkResolution = () => {
+        let slidesToShow;
+        let resolution = 1920;
+        resolution = window.innerWidth;
+        if (resolution >= 960) {
+            slidesToShow = 3;
+        } else if (resolution < 960 && resolution > 850) {
+            slidesToShow = 2.75;
+        } else if (resolution < 850 && resolution > 770) {
+            slidesToShow = 2.5;
+        } else if (resolution < 770 && resolution > 700) {
+            slidesToShow = 2.25;
+        } else if (resolution < 700 && resolution > 630) {
+            slidesToShow = 2;
+        } else if (resolution < 630 && resolution > 560) {
+            slidesToShow = 1.75;
+        } else if (resolution < 560 && resolution > 490) {
+            slidesToShow = 1.5;
+        } else if (resolution < 490 && resolution > 420) {
+            slidesToShow = 1.25;
+        } else {
+            slidesToShow = 1.15;
+        }
+        return slidesToShow;
+    };
+
     const getBreakpoints = (): any => {
         const breakpoints: any = {
             0: {
@@ -100,7 +127,7 @@ const Section: React.FC<SectionProps> = ({
                     pagination={{
                         clickable: true,
                     }}
-                    slidesPerView={slidesToShow ? slidesToShow : 5}
+                    slidesPerView={slidesToShow ? checkResolution() : 5}
                     freeMode={true}
                     grabCursor={true}
                     modules={[Pagination, FreeMode]}

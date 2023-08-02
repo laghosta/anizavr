@@ -7,7 +7,7 @@ interface useLoadingProps {
 }
 
 export const useLoading = create<useLoadingProps>((set) => ({
-    loading: false,
+    loading: true,
     setIsLoading: () => set({ loading: true }),
     setIsNotLoading: () => set({ loading: false }),
 }));
