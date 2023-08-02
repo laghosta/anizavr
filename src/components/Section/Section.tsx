@@ -15,7 +15,7 @@ interface SectionProps {
     anime?: AnimePreview[];
     viewMoreHref?: string;
     slidesToShow?: number;
-    inWishList? : boolean
+    inWishList?: boolean;
 }
 
 const Section: React.FC<SectionProps> = ({
@@ -23,11 +23,26 @@ const Section: React.FC<SectionProps> = ({
     title,
     viewMoreHref,
     slidesToShow,
-    inWishList
+    inWishList,
 }) => {
-    const data = anime?.length ? anime.map((el, id) => {return  <SwiperSlide key={id}>
-        <Anime inWishlist={inWishList} element={el} />
-    </SwiperSlide>}) : <h4  className="text-white text-3xl font-semibold">Пусто...</h4>
+    const data = anime?.length ? (
+        anime.map((el, id) => {
+            return (
+                <SwiperSlide key={id}>
+                    <Anime inWishlist={inWishList} element={el} />
+                </SwiperSlide>
+            );
+        })
+    ) : (
+        <div className="flex items-center ">
+            <h4 className="text-3xl ">Я знаю, что ты хочешь посмотреть...</h4>
+            <img
+                src="/images/3.png"
+                alt="История просмотров пуста"
+                className="w-[200px] h-[200px]"
+            />
+        </div>
+    );
     const getBreakpoints = (): any => {
         const breakpoints: any = {
             0: {
@@ -70,19 +85,18 @@ const Section: React.FC<SectionProps> = ({
                 slidesPerView: 5.25,
             },
         };
-        if(!slidesToShow){
+        if (!slidesToShow) {
             return breakpoints;
-
         }
-        return null
-
+        return null;
     };
     return (
         <div className="mt-8 flex-col items-center justify-center gap-3 w-full">
-            <h4 className="text-4xl  font-bold">{title}</h4>
-            {
-                anime ?
-                    <Swiper
+            <h4 className="text-4xl  font-bold w-fit border-b-2 border-[#53aa42] py-2">
+                {title}
+            </h4>
+            {anime ? (
+                <Swiper
                     pagination={{
                         clickable: true,
                     }}
@@ -92,7 +106,7 @@ const Section: React.FC<SectionProps> = ({
                     modules={[Pagination, FreeMode]}
                     breakpoints={getBreakpoints()}
                 >
-                {data}
+                    {data}
 
                     {viewMoreHref && (
                         <SwiperSlide key={viewMoreHref}>
@@ -100,9 +114,9 @@ const Section: React.FC<SectionProps> = ({
                         </SwiperSlide>
                     )}
                 </Swiper>
-                : <h4 className="text-white">Пусто...</h4>
-            }
-
+            ) : (
+                <h4 className="text-white">Пусто...</h4>
+            )}
         </div>
     );
 };

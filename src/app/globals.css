@@ -98,3 +98,6 @@ html::-moz-scrollbar{
 .descLink a:hover{
   text-decoration: underline;
 }
+.bg{
+  box-shadow: 0px 10000px 100px 100px inset rgba(0,0,0,.2)
+}

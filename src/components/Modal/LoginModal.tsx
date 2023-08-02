@@ -18,8 +18,8 @@ import { Input } from "../ui/input";
 import { useLoginModal } from "@/hooks/useModal";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "../ui/use-toast";
-import {customFetch} from "@/utils/fetch";
-import {useUser} from "@/hooks/useUser";
+import { customFetch } from "@/utils/fetch";
+import { useUser } from "@/hooks/useUser";
 
 const LoginSchema = z.object({
     email: z.string().email(),
@@ -30,19 +30,22 @@ const LoginModal = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const loginModal = useLoginModal();
     const isLogged = useAuth((state) => state.isLogged);
-    const {user, setUser}= useUser()
+    const { user, setUser } = useUser();
     const ref = useRef(null);
 
-
-    const getCurrentUser = async() => {
-        const res = await customFetch('api/users/getCurrentUser', "GET")
-        const user = await res.json()
-        return user
-    }
+    const getCurrentUser = async () => {
+        const res = await customFetch("api/users/getCurrentUser", "GET");
+        const user = await res.json();
+        return user;
+    };
     const onSubmitLogin = async (values: z.infer<typeof LoginSchema>) => {
         try {
             setLoading(true);
-            const res = await customFetch("api/users/login", "POST", JSON.stringify(values) )
+            const res = await customFetch(
+                "api/users/login",
+                "POST",
+                JSON.stringify(values)
+            );
             if (res.status !== 200) {
                 return toast({
                     duration: 2000,
@@ -50,13 +53,11 @@ const LoginModal = () => {
                     title: "Ти довбойоб",
                     description: (await res.json()).ErrorMessage,
                 });
-
-            }
-            else {
+            } else {
                 localStorage.setItem("JWT", await res.text());
-                const user = await getCurrentUser()
-                if(user){
-                    setUser(user)
+                const user = await getCurrentUser();
+                if (user) {
+                    setUser(user);
                 }
             }
         } finally {
@@ -105,6 +106,7 @@ const LoginModal = () => {
                                     <FormLabel>Електронная почта</FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="email"
                                             disabled={loading}
                                             placeholder={
                                                 "narutouzumaki@anizavr.me"
