@@ -1,2 +1,2 @@
-export const Link = process.env.SERVER;
-export const ShikimoriLink = process.env.SHIKIMORI;
+export const Link = "https://anizavr.onrender.com";
+export const ShikimoriLink = "https://shikimori.me/";

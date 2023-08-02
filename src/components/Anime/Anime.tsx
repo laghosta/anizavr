@@ -32,8 +32,8 @@ const Anime: React.FC<AnimeProps> = ({ element, rated, href }) => {
     const {setIsLoading} = useLoading()
     const handleClickAnime = (event:any) => {
         if(!event.target.classList.contains("addToWishList")){
-            setIsLoading()
             router.push(`/anime/${element?.id}`)
+            setIsLoading()
         }
     }
 
@@ -74,16 +74,14 @@ const Anime: React.FC<AnimeProps> = ({ element, rated, href }) => {
                 }
             }
         }
-    }, [user, updated])
+    }, [user?.username, updated])
     return (
         <div className="transition hover:scale-[102%] justify-self-center " >
             {element && (
                 <div
                     onClick={handleClickAnime}
                     className="relative flex   items-end rounded-xl border-2 border-[#43aa52]  transition w-[300px] h-[400px] anime ">
-                    <Image
-                        loading="eager"
-                        unoptimized
+                    <img
                         src={`${ShikimoriLink}${element.image?.original}`}
                         width={300}
                         height={400}

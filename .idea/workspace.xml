@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="62305647-dd7a-449a-8535-84346331c800" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Anime/Anime.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Anime/Anime.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navbar/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useNavbar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useNavbar.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/Link.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Link.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/fetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/fetch.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +69,10 @@
       <workItem from="1690370890377" duration="32133000" />
       <workItem from="1690478740107" duration="12654000" />
       <workItem from="1690553022592" duration="1695000" />
-      <workItem from="1690813210249" duration="421000" />
+      <workItem from="1690813210249" duration="1404000" />
+      <workItem from="1690926029930" duration="1317000" />
+      <workItem from="1690927386615" duration="1017000" />
+      <workItem from="1690928539371" duration="1839000" />
     </task>
     <servers />
   </component>
