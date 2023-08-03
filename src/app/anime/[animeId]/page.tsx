@@ -83,8 +83,7 @@ const Anime: React.FC<AnimeProps> = async (props) => {
                     </h1>
                     <p className="font-normal text-xl px-2">{details!.name}</p>
                     <div className="flex flex-col xl:flex-row lg:flex-row md:flex-row sm:flex-col items-center xl:h-[400px] lg:h-[400px] md:h-[400px] h-full  w-full mt-5 xl:mt-10 lg:mt-8 md:mt-6 gap-6">
-                        <Image
-                            loading={"eager"}
+                        <img
                             src={`https://shikimori.me${
                                 details!.image!.original
                             }`}
