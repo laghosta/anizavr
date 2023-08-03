@@ -87,7 +87,7 @@ const Anime: React.FC<AnimeProps> = ({ element, rated, href }) => {
                     onClick={handleClickAnime}
                     className="relative flex items-end rounded-xl border-2 border-[#43aa52]  transition w-[300px] h-[400px] anime z-1 "
                 >
-                    <Image
+                    <img
                         src={`${ShikimoriLink}${element.image?.original}`}
                         width={300}
                         height={400}
