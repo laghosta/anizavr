@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader/Loader";
 import { useLoading } from "@/hooks/useLoading";
 const BrowsingAnime = () => {
-    const { loading, setIsLoading, setIsNotLoading } = useLoading();
+    const { setIsLoading, setIsNotLoading } = useLoading();
     const [anime, setAnime] = useState<AnimePreview[]>([]);
     const [page, setPage] = useState(1);
 

@@ -118,9 +118,11 @@ export const Navbar = () => {
                             />
                         )}
                     </Link>
-                    <NavbarSearchForm />
 
                     <ul className="flex w-fit h-full items-center lg:gap-4 md:gap-3 sm:gap-2 gap-2">
+                        <li>
+                            <NavbarSearchForm />
+                        </li>
                         <li>
                             <Link href={"/anime"}>Топ</Link>
                         </li>

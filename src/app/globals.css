@@ -44,8 +44,7 @@ html::-moz-scrollbar{
   box-shadow: 0px 10px 10px #43aa52aa;
 }
 .anime{
-  box-shadow: inset 0px -80px 100px rgb(0, 0, 0);
-
+  box-shadow: inset 3px -80px 100px #000000;
 }
 .title{
   filter: drop-shadow(2px 5px 3px #000);

@@ -76,7 +76,7 @@ const Anime: React.FC<AnimeProps> = async (props) => {
         );
     } else
         return (
-            <div className="w-full h-full mb-5">
+            <div className="w-full h-full">
                 <div className="flex flex-col mt-5 xl:mt-10 lg:mt-8 md:mt-6 text-center justify-between max-w-[960px] mx-auto w-screen">
                     <h1 className="font-bold text-3xl px-2">
                         {details!.russian}

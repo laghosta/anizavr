@@ -31,7 +31,7 @@ export default function RootLayout({
             </head>
             <body className={inter.className}>
                 <main>
-                    <div className="w-screen h-full fixed top-0 left-0 z-[-10] bg">
+                     <div className="w-screen h-full fixed top-0 left-0 z-[-10] bg">
                         <img
                             src="/images/bg.jpg"
                             alt="bg"

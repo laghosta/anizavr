@@ -18,13 +18,13 @@ import { AnimePreview, Image, Result } from "@/utils/AnimeApi";
 import { Link } from "@/utils/Link";
 import { redirect, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import {useAnimeWishlistUpdate} from "@/hooks/useAnimeWishlistUpdate";
+import { useAnimeWishlistUpdate } from "@/hooks/useAnimeWishlistUpdate";
 export interface SearchAnime {
     russian?: string | undefined;
     score?: string | undefined;
     episodes?: number | null;
     image?: Image;
-    kind? : string;
+    kind?: string;
     id?: number;
 }
 
@@ -34,21 +34,23 @@ const SearchPage = () => {
     const [tempData, setTempData] = useState<Result[]>();
     const [data, setData] = useState<SearchAnime[]>();
     const searchParams = useSearchParams();
-    const {updated, updateWishlist} = useAnimeWishlistUpdate()
+    const { updated, updateWishlist } = useAnimeWishlistUpdate();
     if (!searchParams.get("title")) {
         redirect("/");
     }
 
     useEffect(() => {
         const arr: SearchAnime[] = [];
-        setData([])
+        setData([]);
         if (tempData) {
             for (let i = 0; i < tempData.length; i++) {
                 const image = new Image();
                 image.original = tempData[i].material_Data?.poster_Url;
                 const element: SearchAnime = {
                     russian: tempData[i].title,
-                    score: tempData[i].material_Data?.shikimori_rating?.toString(),
+                    score: tempData[
+                        i
+                    ].material_Data?.shikimori_rating?.toString(),
                     episodes: null,
                     kind: tempData[i].type,
                     image: image,
@@ -70,7 +72,6 @@ const SearchPage = () => {
         })
             .then((res) => res.json())
             .then((res) => setTempData(res.results));
-
     };
 
     const onClickSearch = (
@@ -104,9 +105,7 @@ const SearchPage = () => {
                             {searchParams.get("title")}
                         </span>
                     </h4>
-                    <div className="mb-5 w-[200px]">
-                        <SearchForm />
-                    </div>
+                    <div className="mb-5 w-[200px]"></div>
                     <div className="flex flex-wrap gap-x-4 gap-y-8 rounded-xl h-full w-full">
                         {data?.length ? (
                             data?.map((el, id) => (

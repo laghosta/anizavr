@@ -18,7 +18,7 @@ const AnimeDescription: React.FC<AnimeDescriptionProps> = ({ text }) => {
                 dangerouslySetInnerHTML={{
                     __html: text,
                 }}
-                className="text-left mb-5 descLink"
+                className="text-left mb-5 px-2 xl:px-5 lg:px-4 md:px-3 sm:px-2 descLink"
             ></p>
         </div>
     ) : null;

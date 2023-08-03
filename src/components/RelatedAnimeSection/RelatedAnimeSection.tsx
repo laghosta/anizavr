@@ -20,7 +20,7 @@ const RelatedAnimeSection: React.FC<RelatedAnimeSectionProps> = ({
     };
 
     return (
-        <div className="mb-10 flex flex-col items-center">
+        <div className="mb-10 flex flex-col items-center px-2 xl:px-5 lg:px-4 md:px-3 sm:px-2">
             <div
                 className={cn(
                     isOpen
@@ -38,8 +38,8 @@ const RelatedAnimeSection: React.FC<RelatedAnimeSectionProps> = ({
                     }
                 })}
             </div>
-            {
-                relatedAnime.length > 3 ? <button onClick={onClickMore}>
+            {relatedAnime.length > 3 ? (
+                <button onClick={onClickMore}>
                     <svg
                         className={cn(
                             isOpen ? "rotate-180" : "",
@@ -62,9 +62,8 @@ const RelatedAnimeSection: React.FC<RelatedAnimeSectionProps> = ({
    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"
                         />
                     </svg>
-                </button> : null
-            }
-
+                </button>
+            ) : null}
         </div>
     );
 };
