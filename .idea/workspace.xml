@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="62305647-dd7a-449a-8535-84346331c800" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/Anime/Anime.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Anime/Anime.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="62305647-dd7a-449a-8535-84346331c800" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,7 +65,7 @@
       <workItem from="1690926029930" duration="1317000" />
       <workItem from="1690927386615" duration="1017000" />
       <workItem from="1690928539371" duration="1839000" />
-      <workItem from="1691088547345" duration="2613000" />
+      <workItem from="1691088547345" duration="2968000" />
     </task>
     <servers />
   </component>
