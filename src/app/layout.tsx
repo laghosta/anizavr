@@ -29,16 +29,8 @@ export default function RootLayout({
                     sizes="any"
                 />
             </head>
-            <body className={inter.className}>
+            <body className={inter.className} style={{background:"url(/images/bg.jpg)", backgroundSize:"500%", backdropFilter: "blur(5px)" }}>
                 <main>
-                     <div className="w-screen h-full fixed top-0 left-0 z-[-10] bg">
-                        <img
-                            src="/images/bg.jpg"
-                            alt="bg"
-                            className="w-screen h-full"
-                        />
-                    </div>
-
                     <Navbar />
                     <div className="max-w-[1920px] mx-auto">{children}</div>
                 </main>

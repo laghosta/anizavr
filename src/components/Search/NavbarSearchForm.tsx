@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import { Input } from "../ui/input";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "../ui/button";
@@ -15,9 +15,11 @@ const NavbarSearchForm = () => {
     const [value, setValue] = useState<string>("");
     const [results, setResults] = useState<Result[]>();
     const router = useRouter();
+    const path = usePathname()
     const { toast } = useToast();
     const [isOpen, setIsOpen] = useState(false);
     const { setIsLoading, setIsNotLoading } = useLoading();
+    const input  = useRef(null)
     const onClickSearch = (
         event: React.KeyboardEvent<HTMLElement> | React.MouseEvent<HTMLElement>
     ) => {
@@ -26,12 +28,9 @@ const NavbarSearchForm = () => {
         setIsOpen(false);
         if (!value.trim()) {
             setIsNotLoading();
-            return toast({
-                duration: 2000,
-                variant: "destructive",
-                title: "Задано пустое значение",
-                description: "Введите корректное название...",
-            });
+            //@ts-ignore
+            input.current!.focus();
+
         } else {
             router.push(`/anime/search?title=${value}`);
         }
@@ -82,6 +81,7 @@ const NavbarSearchForm = () => {
             <>
                 <form className="border-white flex gap-2 items-center ml-auto border-2 rounded-md md:px-2 sm:px-2 px-2 pr-1 dropdown-parent">
                     <Input
+                        ref={input}
                         onChange={handleChange}
                         value={value}
                         className={cn(

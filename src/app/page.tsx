@@ -43,7 +43,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="flex flex-col items-start gap-10 justify-center pl-10 pr-0">
+        <div className="flex flex-col items-start gap-10 justify-center pl-2 xl:pl-10 lg:pl-8 md:pl-6 sm:pl-4 pr-0">
             {!loading ? (
                 <>
                     {top && (

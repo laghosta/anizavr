@@ -119,7 +119,7 @@ export const Navbar = () => {
                         )}
                     </Link>
 
-                    <ul className="flex w-fit h-full items-center lg:gap-4 md:gap-3 sm:gap-2 gap-2">
+                    <ul className="flex w-fit h-full items-center lg:gap-4 md:gap-3 sm:gap-3 gap-3">
                         <li>
                             <NavbarSearchForm />
                         </li>
@@ -128,11 +128,11 @@ export const Navbar = () => {
                         </li>
 
                         {!user ? (
-                            <ul className="h-fit justify-center py-5 flex flex-col gap-0 xl:gap-3 lg:gap-2 md:gap-2 sm:gap-0 items-center xl:flex-row lg:flex-row md:flex-row sm:flex-col">
+                            <ul className="h-fit py-5 flex flex-col gap-0 xl:gap-3 lg:gap-2 md:gap-2 sm:gap-0 items-end xl:flex-row lg:flex-row md:flex-row sm:flex-col">
                                 <li>
                                     <button
                                         onClick={loginModal.onOpen}
-                                        className=" text-center rounded-xl w-full h-fit bg-transparent  xl:px-5 xl:py-3 lg:px-4 lg:py-2 md:px-3 md:py-1 sm:px-2 sm:py-1  border-0 xl:borer-2 lg:border-2 md:border-2 sm:border-0 transition border-white hover:bg-white/20 hover:scale-[105%]"
+                                        className=" text-right rounded-xl px-2 py-1 w-full h-fit bg-transparent  xl:px-5 xl:py-3 lg:px-4 lg:py-2 md:px-3 md:py-1 sm:px-2 sm:py-1  border-0 xl:borer-2 lg:border-2 md:border-2 sm:border-0 transition border-white hover:bg-white/20 hover:scale-[105%]"
                                     >
                                         Вход
                                     </button>
@@ -140,7 +140,7 @@ export const Navbar = () => {
                                 <li>
                                     <button
                                         onClick={registerModal.onOpen}
-                                        className="text-center rounded-xl w-full h-fit bg-transparent  xl:px-5 xl:py-3 lg:px-4 lg:py-2 md:px-3 md:py-1 sm:px-2 sm:py-1  border-0 xl:borer-2 lg:border-2 md:border-2 sm:border-0 transition border-white hover:bg-white/20 hover:scale-[105%]"
+                                        className="text-right rounded-xl px-2 py-1 w-full h-fit bg-transparent  xl:px-5 xl:py-3 lg:px-4 lg:py-2 md:px-3 md:py-1 sm:px-2 sm:py-1  border-0 xl:borer-2 lg:border-2 md:border-2 sm:border-0 transition border-white hover:bg-white/20 hover:scale-[105%]"
                                     >
                                         Регистрация
                                     </button>
