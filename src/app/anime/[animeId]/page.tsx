@@ -82,7 +82,7 @@ const Anime: React.FC<AnimeProps> = async (props) => {
                         {details!.russian}
                     </h1>
                     <p className="font-normal text-xl px-2">{details!.name}</p>
-                    <div className="flex flex-col xl:flex-row lg:flex-row md:flex-row sm:flex-col items-center xl:h-[400px] lg:h-[400px] md:h-[400px] h-full  w-full mt-5 xl:mt-10 lg:mt-8 md:mt-6 gap-6">
+                    <div className="flex flex-col xl:flex-row lg:flex-row md:flex-row sm:flex-col items-center xl:h-[400px] lg:h-[400px] md:h-[400px] h-full w-full mt-5 xl:mt-10 lg:mt-8 md:mt-6 gap-6">
                         <img
                             src={`https://shikimori.me${
                                 details!.image!.original
@@ -93,7 +93,7 @@ const Anime: React.FC<AnimeProps> = async (props) => {
                             className="rounded-xl border-2 border-[#43aa52] h-[400px]"
                         />
 
-                        <ul className="flex flex-col justify-between items-baseline max-h-[400px] xl:h-[400px] lg:h-[400px] md:h-[400px] gap-2">
+                        <ul className="flex flex-col justify-between  items-baseline max-w-[300px] max-h-[400px] xl:h-[400px] lg:h-[400px] md:h-[400px] gap-2">
                             <li>
                                 Статус:{" "}
                                 <span
@@ -136,13 +136,13 @@ const Anime: React.FC<AnimeProps> = async (props) => {
                                 )}`}
                             </li>
                             <li>Тип: {details!.kind}</li>
-                            <li>
+                            <li >
                                 Студии:{" "}
                                 {details!.studios
                                     ?.map((el: any) => el.name)
                                     .join(", ")}
                             </li>
-                            <li className="flex items-center gap-2">
+                            <li className="flex items-center gap-2 flex-wrap max-w-[300px]">
                                 {details!.genres!.map((el: any, id: number) => (
                                     <span
                                         className="underline transition cursor-pointer hover:text-[#43aa52]"

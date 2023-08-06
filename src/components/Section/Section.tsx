@@ -5,7 +5,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
-import { Pagination, FreeMode } from "swiper/modules";
+import { Pagination, FreeMode,Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Anime from "../Anime/Anime";
@@ -128,9 +128,10 @@ const Section: React.FC<SectionProps> = ({
                         clickable: true,
                     }}
                     slidesPerView={slidesToShow ? checkResolution() : 5}
-                    freeMode={true}
+                    freeMode={false}
                     grabCursor={true}
-                    modules={[Pagination, FreeMode]}
+                    navigation={true}
+                    modules={[Pagination, FreeMode, Navigation]}
                     breakpoints={getBreakpoints()}
                 >
                     {data}
