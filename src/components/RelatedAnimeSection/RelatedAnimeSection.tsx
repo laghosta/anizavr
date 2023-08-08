@@ -30,7 +30,7 @@ const RelatedAnimeSection: React.FC<RelatedAnimeSectionProps> = ({
                 )}
             >
                 <h4 className="text-center text-3xl font-bold mb-3">
-                    Связаные аниме
+                    Связанные аниме
                 </h4>
                 {relatedAnime.map((el: ShikimoriRelated, id: number) => {
                     if (el.relationRussian !== "Прочее") {
