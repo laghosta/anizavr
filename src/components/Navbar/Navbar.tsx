@@ -151,7 +151,7 @@ export const Navbar = () => {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Avatar className="border-white border-2">
-                                            <AvatarImage src="/images/avatar.jpg" />
+                                            <AvatarImage src={user.avatarUrl} />
                                         </Avatar>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent className="w-48 mr-3 mt-2 xl:mr-10 lg:mr-8 md:mr-6">

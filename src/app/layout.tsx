@@ -5,6 +5,8 @@ import { Rubik } from "next/font/google";
 import Head from "next/head";
 import { Toaster } from "@/components/ui/toaster";
 import Loader from "@/components/Loader/Loader";
+import { Analytics } from '@vercel/analytics/react';
+
 import { useLoading } from "@/hooks/useLoading";
 const inter = Rubik({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -31,13 +33,14 @@ export default function RootLayout({
             <body className={inter.className}>
                 <main>
                     <div className="w-full overflow-x-hidden xl:w-screen lg:w-screen md:w-screen sm:w-full z-[-1] h-screen fixed left-0 top-0">
-                        <img  className="w-full overflow-x-hidden h-screen xl:w-screen lg:w-screen md:w-screen sm:w-full " src="/images/bg.jpg" alt="background image"/>
+                        <img  className="min-w-[1920px] w-full overflow-x-hidden h-screen xl:w-screen lg:w-screen md:w-screen sm:w-full " src="/images/bg.jpg" alt="background image"/>
                     </div>
                     <Navbar />
                     <div className="max-w-[1920px] mx-auto">{children}</div>
                 </main>
                 <Toaster />
                 <Loader />
+                <Analytics/>
             </body>
         </html>
     );

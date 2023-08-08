@@ -57,12 +57,15 @@ const NavbarSearchForm = () => {
         debounced(event.target.value);
     };
     const handleClickOutside = (event: any) => {
-        if (
-            !event.target.parentNode.classList.contains("dropdown") &&
-            !event.target.parentNode.classList.contains("dropdown-parent")
-        ) {
-            setIsOpen(false);
+        if(isOpen){
+            if (
+                !event.target.parentNode.classList.contains("dropdown") &&
+                !event.target.parentNode.classList.contains("dropdown-parent")
+            ) {
+                setIsOpen(false);
+            }
         }
+
     };
 
     useEffect(() => {
