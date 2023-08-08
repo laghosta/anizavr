@@ -86,7 +86,7 @@ const CommentsBlock: React.FC<CommentsBlockProps> = ({ animeId }) => {
                 ) : (
                     <div className="flex flex-col gap-2 w-full items-center justify-center">
                         <h4 className="text-2xl text-white w-full text-center">
-                            {"Коментариев пока нету :("}
+                            {"Комментариев пока нету :("}
                         </h4>
                         {!user ? (
                             <p>
