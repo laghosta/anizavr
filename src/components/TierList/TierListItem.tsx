@@ -49,6 +49,8 @@ const TierListItem:React.FC<TierListProps> = ({element, isFirst, isLast,index}) 
             {
                 user?.username === username ?
                     <div className="flex gap-1 items-center xl:gap-3 lg:gap-3 md:gap-3 sm:gap-2 ">
+                       <div className="flex flex-col md:flex-row ">
+
                         {
                             !isFirst ? <div
                                 onClick={() => changeTierlistAnimePosition(true)}>
@@ -119,6 +121,8 @@ const TierListItem:React.FC<TierListProps> = ({element, isFirst, isLast,index}) 
                                 </div>
                                 : null
                         }
+                       </div>
+
                         <div onClick={removeFromTierList} className="w-[30px] h-[30px] rounded-full cursor-pointer  hover:scale-[105%] opacity-80 hover:opacity-100">
                             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                  viewBox="0 0 50 50">
