@@ -63,7 +63,6 @@ export const Navbar = () => {
     const checkUser = async () => {
         const res = await getCurrentUser();
         if (res) {
-            console.log(res);
             setUser(res);
             setUsername(res.username);
         } else {

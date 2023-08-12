@@ -25,7 +25,6 @@ const NavbarSearchForm = () => {
     ) => {
         setIsLoading();
         event.preventDefault();
-        setIsOpen(false);
         if (!value.trim()) {
             setIsNotLoading();
             //@ts-ignore
@@ -34,6 +33,7 @@ const NavbarSearchForm = () => {
         } else {
             router.push(`/anime/search?title=${value}`);
         }
+        setIsOpen(false);
         setIsNotLoading();
     };
     const onInputChange = (tempValue: any) => {
@@ -48,7 +48,7 @@ const NavbarSearchForm = () => {
         }
     };
     const debounced = useMemo(
-        () => debounce((value) => onInputChange(value), 500),
+        () => debounce((value) => onInputChange(value), 300),
         []
     );
 
@@ -64,9 +64,15 @@ const NavbarSearchForm = () => {
             ) {
                 setIsOpen(false);
             }
+
         }
 
     };
+    useEffect(() => {
+        if(path !== "/"){
+            setIsOpen(false)
+        }
+    }, [path])
 
     useEffect(() => {
         return () => {
@@ -75,10 +81,15 @@ const NavbarSearchForm = () => {
     }, [debounced]);
     useEffect(() => {
         window.addEventListener("click", handleClickOutside);
+        window.addEventListener("touchend", handleClickOutside);
+
         return () => {
             window.removeEventListener("click", handleClickOutside);
+            window.addEventListener("touchend", handleClickOutside);
+
         };
-    }, []);
+    }, [isOpen]);
+
     return (
         <div className="relative dropdown">
             <>
@@ -148,7 +159,7 @@ const NavbarSearchForm = () => {
                                 </li>
                             </>
                         ) : (
-                            <li className="text-left py-1 cursor-pointer border-b border-b-white w-full hover:bg-[#43aa52]">
+                            <li className="text-left py-1 cursor-pointer w-full hover:bg-[#43aa52]">
                                 По вашему запросу ничего не найдено...
                             </li>
                         )}

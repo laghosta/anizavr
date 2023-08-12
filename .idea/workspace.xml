@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="62305647-dd7a-449a-8535-84346331c800" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/app/(kodik)/kodik.txt/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(kodik)/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TierList/TierListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TierList/TierListItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/kodik.txt/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navbar/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search/NavbarSearchForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search/NavbarSearchForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +52,7 @@
       <recent name="C:\Users\Sashko\Desktop\portfolio\anizavr\src\utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Sashko\Desktop\portfolio\anizavr\src\app\(kodik)\kodik.txt" />
       <recent name="C:\Users\Sashko\Desktop\portfolio\anizavr\public\images" />
       <recent name="C:\Users\Sashko\Desktop\portfolio\anizavr\public\favicon" />
       <recent name="C:\Users\Sashko\Desktop\portfolio\anizavr" />
@@ -75,6 +80,8 @@
       <workItem from="1691319966792" duration="1025000" />
       <workItem from="1691494515831" duration="2497000" />
       <workItem from="1691594241814" duration="156000" />
+      <workItem from="1691660288207" duration="1304000" />
+      <workItem from="1691869816848" duration="1608000" />
     </task>
     <servers />
   </component>
